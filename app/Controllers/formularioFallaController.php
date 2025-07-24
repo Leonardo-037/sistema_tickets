@@ -13,23 +13,18 @@ class formularioFallaController {
     public function index()
     {
         $artify = DB::ArtifyCrud();
-        $artify-> addCallback("after_insert",[$this,"insertar_ticket"]); //esto es una devolucion de llamada osea hacer algo en respuesta
+        $artify-> addCallback("after_insert",[$this,"insertar_ticket"]);
         $artify->fieldNotMandatory("nombreTecnico");
         $artify->fieldHideLable("nombreTecnico");
         $artify->fieldDataAttr("nombreTecnico", array("style"=>"display:none"));
-        $artify->formFieldValue("estado", "Pendiente");//para darle el valor al campo estado como pendiente altiro
+        $artify->formFieldValue("estado", "Pendiente");
         $artify->fieldHideLable("estado");
         $artify->fieldDataAttr("estado", array("style"=>"display:none"));
-        $artify->buttonHide("cancel"); // ocultar botón cancelar
-        $artify->setLangData("save",'Generar Ticket'); // ocultar botón cancelar
+        $artify->buttonHide("cancel");
+        $artify->setLangData("save",'Generar Ticket');
         $artify->relatedData('fallas','fallas','id_falla','nombre_fa');
-        $artify->fieldTypes('area','select');//esto es el tipo de campo select, check, radio , imagen, archivos, texto, input
-        $artify->fieldDataBinding('area', array(
-            'Soporte Técnico UTD'=>'Soporte Técnico UTD (Unidad de Transformación Digital)',
-            'Desarrollo de Sistemas UTD'=>'Desarrollo de Sistemas UTD (Unidad de Transformación Digital)',
-            'Servicios Generales'=>'Servicios Generales',
-            'Equipos Medicos'=>'Equipos Medicos'
-        ),'','','array');//entrega los datos para el select, arreglado
+        $artify->fieldTypes('area','select');
+        $artify->fieldDataBinding("area", "area", "id_area", "nombre", "db");
         $render = $artify->dbTable("funcionarios")->render("insertform");
 
         $stencil = new ArtifyStencil();
