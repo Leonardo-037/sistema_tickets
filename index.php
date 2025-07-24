@@ -49,9 +49,9 @@ $router->get('/error', 'ErrorController@index');
 $router->get('/hola', 'UserController@index');
 $router->get('usuario/{id}/{val}/{val}', 'UserController@show');
 $router->get('/crud_ticket', 'crud_ticketController@index');
+
 /* Api Controllers */
 $router->post('/Restp/generarToken', 'RestpController@generarToken');
-
 
 $router->get('/Restp/listar/{tabla}/{token}', 'RestpController@listar');
 $router->get('/Restp/listar/{tabla}/{filtro_url}/{token}', 'RestpController@listar');
