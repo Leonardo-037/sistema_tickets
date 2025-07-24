@@ -1,0 +1,33 @@
+<?php
+
+
+                            public function before_insert_personas($data, $obj){
+
+                                return $data;
+                            }
+                        
+                            public function after_insert_personas($data, $obj){
+
+                                return $data;
+                            }
+                        
+                            public function before_update_personas($data, $obj){
+
+                                return $data;
+                            }
+                        
+                            public function after_update_personas($data, $obj){
+
+                                return $data;
+                            }
+                        
+                            public function before_delete_personas($data, $obj){
+
+                                return $data;
+                            }
+                        
+                            public function after_delete_personas($data, $obj){
+
+                                return $data;
+                            }
+                        
