@@ -11,7 +11,7 @@ use App\core\Request;
 $router = new ArtifyRouter();
 
 // Definir rutas
-$router->get('/', 'LoginController@index');
+$router->get('/', 'formularioFallaController@index');
 $router->get('/login', 'LoginController@index');
 $router->get('/salir', 'LoginController@salir');
 $router->get('/recuperar', 'LoginController@reset');
@@ -48,7 +48,6 @@ $router->get('/error', 'ErrorController@index');
 
 $router->get('/hola', 'UserController@index');
 $router->get('usuario/{id}/{val}/{val}', 'UserController@show');
-$router->get('/formularioTicket', 'formularioFallaController@index'); //nombre de la clase @ nombre metodo
 $router->get('/crud_ticket', 'crud_ticketController@index');
 /* Api Controllers */
 $router->post('/Restp/generarToken', 'RestpController@generarToken');
