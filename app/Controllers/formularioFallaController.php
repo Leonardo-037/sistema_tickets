@@ -24,7 +24,12 @@ class formularioFallaController {
         $artify->setLangData("save",'Generar Ticket'); // ocultar botón cancelar
         $artify->relatedData('fallas','fallas','id_falla','nombre_fa');
         $artify->fieldTypes('area','select');//esto es el tipo de campo select, check, radio , imagen, archivos, texto, input
-        $artify->fieldDataBinding('area', array('Informática'=>'Informática','Servicios Generales'=>'Servicios Generales','Equipos Medicos'=>'Equipos Medicos'),'','','array');//entrega los datos para el select, arreglado
+        $artify->fieldDataBinding('area', array(
+            'Soporte Técnico UTD'=>'Soporte Técnico UTD',
+            'Desarrollo de Sistemas UTD'=>'Desarrollo de Sistemas UTD',
+            'Servicios Generales'=>'Servicios Generales',
+            'Equipos Medicos'=>'Equipos Medicos'
+        ),'','','array');//entrega los datos para el select, arreglado
         $render = $artify->dbTable("funcionarios")->render("insertform");
 
         $stencil = new ArtifyStencil();
@@ -36,7 +41,7 @@ class formularioFallaController {
     public function insertar_ticket($data, $obj){
         $id = $data;
         $queryfy = $obj->getQueryfyObj();
-        $queryfy->where("id", $id);
+        $queryfy->where("id_funcionarios", $id);
         $result = $queryfy->select("funcionarios");
         $correo= $result[0]["correo"];
 
