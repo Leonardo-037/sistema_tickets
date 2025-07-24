@@ -8,7 +8,7 @@ use App\core\Request;
 use App\core\ArtifyStencil;
 use App\core\Redirect;
 use App\core\DB;
-    
+
 class formularioFallaController {
     public function index()
     {
@@ -44,7 +44,6 @@ class formularioFallaController {
         $subject = "Ticket Generado";
         $to = $correo;
 
-        //$queryfy->send_email_public($to, 'daniel.telematico@gmail.com', null, $subject, $emailBody);
         DB::PHPMail($to, $correo, $subject, $emailBody);
         return $data;
     }
