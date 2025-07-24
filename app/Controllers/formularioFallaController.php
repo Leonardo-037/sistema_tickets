@@ -25,8 +25,8 @@ class formularioFallaController {
         $artify->relatedData('fallas','fallas','id_falla','nombre_fa');
         $artify->fieldTypes('area','select');//esto es el tipo de campo select, check, radio , imagen, archivos, texto, input
         $artify->fieldDataBinding('area', array(
-            'Soporte Técnico UTD'=>'Soporte Técnico UTD',
-            'Desarrollo de Sistemas UTD'=>'Desarrollo de Sistemas UTD',
+            'Soporte Técnico UTD'=>'Soporte Técnico UTD (Unidad de Transformación Digital)',
+            'Desarrollo de Sistemas UTD'=>'Desarrollo de Sistemas UTD (Unidad de Transformación Digital)',
             'Servicios Generales'=>'Servicios Generales',
             'Equipos Medicos'=>'Equipos Medicos'
         ),'','','array');//entrega los datos para el select, arreglado
