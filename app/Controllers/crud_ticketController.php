@@ -82,7 +82,7 @@ class crud_ticketController {
         $artify->setSettings("searchbox", true);
         $artify->setSettings("function_filter_and_search", true);
         $render= $artify->dbTable("funcionarios")->render();
-        // Implementa la lógica del controlador aquí
+       
         $stencil = new ArtifyStencil();
         echo $stencil->render('crud_ticket', [
             'render' => $render
