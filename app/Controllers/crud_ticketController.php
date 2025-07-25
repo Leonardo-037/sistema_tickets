@@ -33,8 +33,12 @@ class crud_ticketController {
         $artify->where("estado", "completado", "!=");
         //CAMBIAR EL NOMBRE A LA TABLA DE FUNCIONARIO A TICKETS
         $artify->tableHeading('Tickets');
+
+        $artify->colRename("id_funcionarios", "ID");
+        $artify->colRename("nombreTecnico", "Asignado a");
         //ELIMINA EL BOTON AGREGAR
         $artify->setSettings("addbtn", false);
+
         //campo estado
         $artify->bulkCrudUpdate("estado", "select", array("data-cust-attr" =>"some-cust-val"), array(
             array(
@@ -42,8 +46,8 @@ class crud_ticketController {
                 "Pendiente"
             ),
             array(
-                "En proceso",
-                "En proceso"
+                "Asignado",
+                "Asignado"
             ),
             array(
                 "Completado",
@@ -59,8 +63,24 @@ class crud_ticketController {
             $options[] = [$row['nombre'], $row['nombre']];
         }
 
+        $artify->crudTableCol(array(
+            "id_funcionarios",
+            "nombre",
+            "nombreTecnico",
+            "correo", 
+            "area",
+            "fallas",
+            "estado"
+        ));
+
+        $artify->subQueryColumn("area", "SELECT nombre as area FROM area WHERE id_area = {area}");
+        $artify->subQueryColumn("fallas", "SELECT nombre_fa as fallas FROM fallas WHERE id_falla = {fallas}");
+
         $artify->bulkCrudUpdate("nombreTecnico", "select", array("data-cust-attr" => "some-cust-val"), $options);
-        $artify->setSettings("editbtn", true);
+        $artify->setSettings("editbtn", false);
+        $artify->setSettings("actionbtn", false);
+        $artify->setSettings("searchbox", true);
+        $artify->setSettings("function_filter_and_search", true);
         $render= $artify->dbTable("funcionarios")->render();
         // Implementa la lógica del controlador aquí
         $stencil = new ArtifyStencil();
