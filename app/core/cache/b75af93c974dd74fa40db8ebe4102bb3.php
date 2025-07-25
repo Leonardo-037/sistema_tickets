@@ -1,6 +1,11 @@
 <?php include 'C:\xampp7.4\htdocs\sistema_tickets\app\core/cache/9d19023728c0e1b6dd73224481099346.php'; ?>
 <?php include 'C:\xampp7.4\htdocs\sistema_tickets\app\core/cache/9c3bf8063899bd9aac9f8b4d0f44e6d8.php'; ?>
 <link href='<?php echo htmlspecialchars($_ENV["BASE_URL"], ENT_QUOTES, 'UTF-8'); ?>css/sweetalert2.min.css' rel="stylesheet">
+<style>
+    .artify-button-save {
+        display: none!important;
+    }
+</style>
 <div class="content-wrapper">
     <section class="content">
         <div class="card mt-4">
@@ -33,6 +38,8 @@
         if(dataAction == "edit"){
         
         }
+
+        change_state();
     });
     $(document).on("artify_after_submission", function(event, obj, data) {
         let json = JSON.parse(data);
@@ -60,8 +67,7 @@
         }
     });
 
-    $(document).ready(function () {
-        // Detectar cambio en el select de nombreTecnico
+    function change_state(){
         $('.input-bulk-crud-update[name="nombreTecnico[]"]').on('change', function () {
             var $row = $(this).closest('tr'); // buscar la fila actual
             var selectedValue = $(this).val();
@@ -72,7 +78,8 @@
 
                 // cambiar su valor a "Asignado"
                 $estadoSelect.val('Asignado');
+                $(".guardar_datos").click();
             }
         });
-    });
+    }
 </script>

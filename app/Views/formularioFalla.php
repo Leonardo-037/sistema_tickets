@@ -1,3 +1,4 @@
+<link href='{{ $_ENV["BASE_URL"] }}css/sweetalert2.min.css' rel="stylesheet">
 <div class="card">
   <div class="card-header bg-dark text-white text-center">Genera tu Ticket</div>
   <div class="card-body bg-light">{!!$render!!}</div>
@@ -6,9 +7,27 @@
 <div id="artify-ajax-loader">
     <img width="300" src='{{ $_ENV["BASE_URL"] }}app/libs/artify/images/ajax-loader.gif' class="artify-img-ajax-loader"/>
 </div>
+<script src='{{ $_ENV["BASE_URL"] }}js/sweetalert2.all.min.js'></script>
 <script>
   $(document).ready(function(){
     $(".fallas").empty();
     $(".fallas").html("<option>Seleccionar</option>");
   });
+</script>
+<script>
+    $(document).on("artify_after_submission", function(event, obj, data) {
+        let json = JSON.parse(data);
+
+        if (json.message) {
+            $(".alert-success").hide();
+            $(".alert-danger").hide();
+
+            Swal.fire({
+                icon: "success",
+                text: json["message"],
+                confirmButtonText: "Aceptar",
+                allowOutsideClick: false
+            });
+        }
+    });
 </script>

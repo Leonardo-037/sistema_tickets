@@ -1,6 +1,11 @@
 @include('layouts/header')
 @include('layouts/sidebar')
 <link href='{{ $_ENV["BASE_URL"] }}css/sweetalert2.min.css' rel="stylesheet">
+<style>
+    .artify-button-save {
+        display: none!important;
+    }
+</style>
 <div class="content-wrapper">
     <section class="content">
         <div class="card mt-4">
@@ -33,6 +38,8 @@
         if(dataAction == "edit"){
         
         }
+
+        change_state();
     });
     $(document).on("artify_after_submission", function(event, obj, data) {
         let json = JSON.parse(data);
@@ -60,8 +67,7 @@
         }
     });
 
-    $(document).ready(function () {
-        // Detectar cambio en el select de nombreTecnico
+    function change_state(){
         $('.input-bulk-crud-update[name="nombreTecnico[]"]').on('change', function () {
             var $row = $(this).closest('tr'); // buscar la fila actual
             var selectedValue = $(this).val();
@@ -72,7 +78,8 @@
 
                 // cambiar su valor a "Asignado"
                 $estadoSelect.val('Asignado');
+                $(".guardar_datos").click();
             }
         });
-    });
+    }
 </script>
