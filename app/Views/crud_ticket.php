@@ -59,4 +59,20 @@
             });
         }
     });
+
+    $(document).ready(function () {
+        // Detectar cambio en el select de nombreTecnico
+        $('.input-bulk-crud-update[name="nombreTecnico[]"]').on('change', function () {
+            var $row = $(this).closest('tr'); // buscar la fila actual
+            var selectedValue = $(this).val();
+
+            if (selectedValue !== "") {
+                // buscar el select de estado dentro de la misma fila
+                var $estadoSelect = $row.find('.input-bulk-crud-update[name="estado[]"]');
+
+                // cambiar su valor a "Asignado"
+                $estadoSelect.val('Asignado');
+            }
+        });
+    });
 </script>
