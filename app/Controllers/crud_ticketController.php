@@ -11,6 +11,22 @@ use App\core\DB;
         
 class crud_ticketController {
 
+    public $token;
+
+	public function __construct()
+	{
+		SessionManager::startSession();
+		$Sesusuario = SessionManager::get('usuario');
+		if (isset($Sesusuario)) {
+			if ($_SERVER['REQUEST_URI'] === "/home/modulos") {
+				Redirect::to("modulos");
+			}
+		} else {
+			Redirect::to("login");
+		}
+        $this->token = Token::generateFormToken('send_message');
+	}
+    
     public function index(){
         $artify = DB::ArtifyCrud();
         //esto elimina de la grilla el ticket cuando está finalizado
