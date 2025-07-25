@@ -1,7 +1,20 @@
 <link href='{{ $_ENV["BASE_URL"] }}css/sweetalert2.min.css' rel="stylesheet">
-<div class="card">
-  <div class="card-header bg-dark text-white text-center">Genera tu Ticket</div>
-  <div class="card-body bg-light">{!!$render!!}</div>
+<style>
+  body {
+    background: #f3f3f3!important;
+  }
+</style>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+        <div class="card mt-5">
+          <div class="card-header bg-dark text-white text-center">Genera tu Ticket</div>
+          <div class="card-body">{!!$render!!}</div>
+        </div>
+
+    </div>
+  </div>
 </div>
 
 <div id="artify-ajax-loader">
