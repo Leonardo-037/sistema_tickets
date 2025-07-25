@@ -6,3 +6,9 @@
 <div id="artify-ajax-loader">
     <img width="300" src='<?php echo htmlspecialchars($_ENV["BASE_URL"], ENT_QUOTES, 'UTF-8'); ?>app/libs/artify/images/ajax-loader.gif' class="artify-img-ajax-loader"/>
 </div>
+<script>
+  $(document).ready(function(){
+    $(".fallas").empty();
+    $(".fallas").html("<option>Seleccionar</option>");
+  });
+</script>

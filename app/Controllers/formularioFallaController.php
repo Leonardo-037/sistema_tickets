@@ -30,6 +30,8 @@ class formularioFallaController {
         $artify->fieldDataBinding("area", "area", "id_area", "nombre", "db");
 
         $artify->fieldDependent("fallas", "area", "id_area"); // campo que depende la carga de los datos
+
+        $artify->fieldCssClass("fallas", array("fallas"));
         
         $render = $artify->dbTable("funcionarios")->render("insertform");
 
