@@ -9,7 +9,7 @@
     <div class="col-md-8">
 
         <div class="card mt-5">
-          <div class="card-header bg-dark text-white text-center">Genera tu Ticket</div>
+          <div class="card-header bg-info text-white text-center">Genera tu Ticket</div>
           <div class="card-body"><?php echo $render; ?></div>
         </div>
 
