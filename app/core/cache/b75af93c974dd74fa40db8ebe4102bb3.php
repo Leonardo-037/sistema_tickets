@@ -2,9 +2,7 @@
 <?php include 'C:\xampp7.4\htdocs\sistema_tickets\app\core/cache/9c3bf8063899bd9aac9f8b4d0f44e6d8.php'; ?>
 <link href='<?php echo htmlspecialchars($_ENV["BASE_URL"], ENT_QUOTES, 'UTF-8'); ?>css/sweetalert2.min.css' rel="stylesheet">
 <style>
-    .artify-button-save {
-        display: none!important;
-    }
+    
 </style>
 <div class="content-wrapper">
     <section class="content">
@@ -82,4 +80,6 @@
             }
         });
     }
+
+    change_state();
 </script>
