@@ -10,7 +10,7 @@
 
         <div class="card mt-5">
           <div class="card-header bg-info text-white text-center">Genera tu Ticket</div>
-          <div class="card-body">{!!$render!!}</div>
+          <div class="card-body">{!!$render!!} {!! $chosen !!}</div>
         </div>
 
     </div>

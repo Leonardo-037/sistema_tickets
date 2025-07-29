@@ -50,6 +50,8 @@ $router->get('/hola', 'UserController@index');
 $router->get('usuario/{id}/{val}/{val}', 'UserController@show');
 $router->get('/crud_ticket', 'crud_ticketController@index');
 $router->get('/asignacion', 'crud_ticketController@asignacion');
+$router->get('/tecnicos', 'TecnicosController@index');
+$router->get('/sector', 'SectorController@index');
 
 /* Api Controllers */
 $router->post('/Restp/generarToken', 'RestpController@generarToken');

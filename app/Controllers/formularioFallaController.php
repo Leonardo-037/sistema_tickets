@@ -13,6 +13,7 @@ class formularioFallaController {
     public function index()
     {
         $artify = DB::ArtifyCrud();
+        $artify->addPlugin("chosen");
         $artify-> addCallback("after_insert",[$this,"insertar_ticket"]);
         $artify->fieldNotMandatory("nombreTecnico");
         $artify->fieldHideLable("nombreTecnico");
@@ -23,6 +24,10 @@ class formularioFallaController {
         $artify->buttonHide("cancel");
         $artify->setLangData("save",'Generar Ticket');
 
+        $artify->fieldRenameLable("sector_funcionario", "Sector Funcionario");
+
+        $artify->relatedData('sector_funcionario','sector','id_sector','nombre_sector');
+
         $artify->fieldTypes('fallas','select');
         $artify->fieldDataBinding('fallas','fallas','id_falla','nombre_fa', 'db');
 
@@ -32,12 +37,16 @@ class formularioFallaController {
         $artify->fieldDependent("fallas", "area", "id_area"); // campo que depende la carga de los datos
 
         $artify->fieldCssClass("fallas", array("fallas"));
+
+        $artify->fieldCssClass("sector_funcionario", array("sector_funcionario"));
         
         $render = $artify->dbTable("funcionarios")->render("insertform");
+        $chosen = $artify->loadPluginJsCode("chosen",".sector_funcionario");
 
         $stencil = new ArtifyStencil();
         echo $stencil->render('formularioFalla', [
-            'render' =>$render
+            'render' =>$render,
+            'chosen' => $chosen
         ]);
     }
     
