@@ -24,6 +24,8 @@ class formularioFallaController {
         $artify->buttonHide("cancel");
         $artify->setLangData("save",'Generar Ticket');
 
+        $artify->fieldRenameLable("nombre", "Nombre Completo del Funcionario");
+        $artify->fieldRenameLable("correo", "Correo del Funcionario");
         $artify->fieldRenameLable("sector_funcionario", "Sector Funcionario");
 
         $artify->relatedData('sector_funcionario','sector','id_sector','nombre_sector');
