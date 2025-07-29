@@ -14,7 +14,7 @@ class formularioFallaController {
     {
         $artify = DB::ArtifyCrud();
         $artify->addPlugin("chosen");
-        $artify-> addCallback("after_insert",[$this,"insertar_ticket"]);
+        $artify-> addCallback("after_insert", [$this,"insertar_ticket"]);
         $artify->fieldNotMandatory("nombreTecnico");
         $artify->fieldHideLable("nombreTecnico");
         $artify->fieldDataAttr("nombreTecnico", array("style"=>"display:none"));

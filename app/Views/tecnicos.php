@@ -19,3 +19,21 @@
     <img width="300" src='{{ $_ENV["BASE_URL"] }}app/libs/artify/images/ajax-loader.gif' class="artify-img-ajax-loader"/>
 </div>
 @include('layouts/footer')
+<script>
+    $(document).on("artify_after_submission", function(event, obj, data) {
+        let json = JSON.parse(data);
+
+        if (json.message) {
+            Swal.fire({
+                icon: "success",
+                text: json["message"],
+                confirmButtonText: "Aceptar",
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(".artify-back").click();
+                }
+            });
+        }
+    });
+</script>
