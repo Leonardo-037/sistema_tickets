@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-07-2025 a las 21:32:03
+-- Tiempo de generación: 29-07-2025 a las 20:20:56
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -126,7 +126,8 @@ INSERT INTO `fallas` (`id_falla`, `nombre_fa`, `id_area`) VALUES
 (8, 'Problema de Correo', 1),
 (9, 'Problemas con Archivos', 2),
 (10, 'Enrolamientos de Médicos', 2),
-(11, 'Fallas de Maquinarias Clínicas', 4);
+(11, 'Fallas de Maquinarias Clínicas', 4),
+(12, 'perros', 4);
 
 -- --------------------------------------------------------
 
@@ -141,6 +142,7 @@ CREATE TABLE `funcionarios` (
   `correo` varchar(100) NOT NULL,
   `area` int(11) NOT NULL,
   `fallas` int(11) NOT NULL,
+  `sector_funcionario` int(11) NOT NULL,
   `estado` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -148,10 +150,10 @@ CREATE TABLE `funcionarios` (
 -- Volcado de datos para la tabla `funcionarios`
 --
 
-INSERT INTO `funcionarios` (`id_funcionarios`, `nombreTecnico`, `nombre`, `correo`, `area`, `fallas`, `estado`) VALUES
-(1, 'Andres Llanos', 'caballos', 'daniel.huerta@redsalud.gob.cl', 1, 7, 'Asignado'),
-(2, 'Daniel Huerta', 'ejemplo', 'daniel.huerta@redsalud.gob.cl', 2, 5, 'Asignado'),
-(3, '', 'elsapallo', 'daniel.telematico@gmail.com', 3, 2, 'Pendiente');
+INSERT INTO `funcionarios` (`id_funcionarios`, `nombreTecnico`, `nombre`, `correo`, `area`, `fallas`, `sector_funcionario`, `estado`) VALUES
+(1, 'Franco Carrasco', 'caballos', 'daniel.huerta@redsalud.gob.cl', 1, 7, 0, 'Asignado'),
+(2, '', 'ejemplo', 'daniel.huerta@redsalud.gob.cl', 2, 5, 0, 'Pendiente'),
+(3, '', 'elsapallo', 'daniel.telematico@gmail.com', 3, 2, 0, 'Pendiente');
 
 -- --------------------------------------------------------
 
@@ -182,8 +184,9 @@ INSERT INTO `menu` (`id_menu`, `nombre_menu`, `url_menu`, `icono_menu`, `submenu
 (12, 'Acceso Menus', '/acceso_menus', 'fas fa-outdent', 'No', 8, 'Si'),
 (19, 'Generador de Módulos', '/modulos', 'fas fa-table', 'No', 1, 'Si'),
 (141, 'Documentación', '/Documentacion/index', 'fas fa-book', 'No', 9, 'Si'),
-(271, 'Web Menu', '/web_menu', 'fas fa-bars', 'No', 7, 'Si'),
-(272, 'Tickets', '/crud_ticket', 'far fa-file-alt', 'No', 2, 'Si');
+(272, 'Tickets', '/crud_ticket', 'far fa-file-alt', 'No', 2, 'Si'),
+(273, 'Asignar Fallas', '/asignacion', 'fab fa-adn', 'No', 3, 'Si'),
+(274, 'Técnicos', '/tecnicos', 'fab fa-alipay', 'No', 4, 'Si');
 
 -- --------------------------------------------------------
 
@@ -290,6 +293,82 @@ INSERT INTO `rol` (`idrol`, `nombre_rol`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `sector`
+--
+
+CREATE TABLE `sector` (
+  `id_sector` int(11) NOT NULL,
+  `nombre_sector` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `sector`
+--
+
+INSERT INTO `sector` (`id_sector`, `nombre_sector`) VALUES
+(1, 'Pediatria'),
+(2, 'Maternidad'),
+(3, 'Esterilización'),
+(4, 'Medicina'),
+(5, 'UTI/UCI'),
+(6, 'Cirugía'),
+(7, 'Pensionado'),
+(8, 'Recaudación Pensionado'),
+(9, 'Pabellón'),
+(10, 'Urgencia Maternal'),
+(11, 'Central Teléfonica'),
+(12, 'HD Pasillo'),
+(13, 'HD Container'),
+(14, 'Urgencia Pediátrica'),
+(15, 'Preparto'),
+(16, 'Toma de Muestras'),
+(17, 'Ecografía'),
+(18, 'Ventanilla Rayos'),
+(19, 'Kinesiologia'),
+(20, 'Ventanilla Laboratorio'),
+(21, 'Mamografia'),
+(22, 'Oficina Rayos'),
+(23, 'Biopsias'),
+(24, 'Oficina Urgencia'),
+(25, 'Sala Observación'),
+(26, 'Trabajadores Sociales Urgencia'),
+(27, 'Box Adulto Urgencia'),
+(28, 'Recaudación Urgencia'),
+(29, 'Selector Urgencia'),
+(30, 'ESI4'),
+(31, 'Oficina Abastecimiento'),
+(32, 'Oficina Reclutamiento'),
+(33, 'Of Personal'),
+(34, 'Contabilidad'),
+(35, 'Auditoria'),
+(36, 'Oficina de Partes'),
+(37, 'Calidad'),
+(38, 'Bienestar'),
+(39, 'Dirección'),
+(40, 'Subdirección'),
+(41, 'GRD'),
+(42, 'Oficina Tesoreria'),
+(43, 'Recaudación'),
+(44, 'Capacitación'),
+(45, 'Bodega Abastecimiento'),
+(46, 'Oficina Servicios Generales'),
+(47, 'Oficina Equipos Médicos'),
+(48, 'Lavanderia'),
+(49, 'Archivos'),
+(50, 'Archivos Pasivos'),
+(51, 'Sigges'),
+(52, 'Container Nadia'),
+(53, 'Comunicaciones - Finis'),
+(54, 'IAS - Finis'),
+(55, 'Sala de Reuniones - Finis'),
+(56, 'OIRS - Finis'),
+(57, 'Lista de Espera - Finis'),
+(58, 'Chile Crece - Finis'),
+(59, 'Gestión de la Demanda - Finis');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `submenu`
 --
 
@@ -311,20 +390,23 @@ CREATE TABLE `submenu` (
 
 CREATE TABLE `tecnicos` (
   `id_tecnicos` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL
+  `nombre` varchar(100) NOT NULL,
+  `correo` varchar(100) NOT NULL,
+  `area` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `tecnicos`
 --
 
-INSERT INTO `tecnicos` (`id_tecnicos`, `nombre`) VALUES
-(1, 'Andres Llanos'),
-(2, 'Jorge Berrios'),
-(3, 'Leonardo Martinez'),
-(4, 'Franco Carrasco'),
-(5, 'Fabian Pacheco'),
-(6, 'Daniel Huerta');
+INSERT INTO `tecnicos` (`id_tecnicos`, `nombre`, `correo`, `area`) VALUES
+(1, 'Andres Llanos', 'sergio.llanosc@redsalud.gob.cl', 1),
+(2, 'Jorge Berrios', 'jorge.berrios@redsalud.gob.cl', 1),
+(3, 'Leonardo Martinez', 'leonardo.martinez@redsalud.gob.cl', 2),
+(4, 'Franco Carrasco', 'franco.carrasco@redsalud.gob.cl', 1),
+(5, 'Fabian Pacheco', '', 0),
+(6, 'Daniel Huerta', 'daniel.huerta@redsalud.gob.cl', 2),
+(7, 'Juan Pablo Álvarez Avalos', 'juan.alvarez@redsalud.gob.cl', 1);
 
 -- --------------------------------------------------------
 
@@ -387,8 +469,9 @@ INSERT INTO `usuario_menu` (`id_usuario_menu`, `id_usuario`, `id_menu`, `visibil
 (1176, 1, 12, 'Mostrar'),
 (1179, 1, 19, 'Mostrar'),
 (1299, 1, 141, 'Mostrar'),
-(1429, 1, 271, 'Mostrar'),
-(1430, 1, 272, 'Mostrar');
+(1430, 1, 272, 'Mostrar'),
+(1431, 1, 273, 'Mostrar'),
+(1432, 1, 274, 'Mostrar');
 
 -- --------------------------------------------------------
 
@@ -463,6 +546,12 @@ ALTER TABLE `rol`
   ADD PRIMARY KEY (`idrol`);
 
 --
+-- Indices de la tabla `sector`
+--
+ALTER TABLE `sector`
+  ADD PRIMARY KEY (`id_sector`);
+
+--
 -- Indices de la tabla `submenu`
 --
 ALTER TABLE `submenu`
@@ -525,7 +614,7 @@ ALTER TABLE `configuracion`
 -- AUTO_INCREMENT de la tabla `fallas`
 --
 ALTER TABLE `fallas`
-  MODIFY `id_falla` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_falla` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `funcionarios`
@@ -537,7 +626,7 @@ ALTER TABLE `funcionarios`
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=273;
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
 
 --
 -- AUTO_INCREMENT de la tabla `modulos`
@@ -552,6 +641,12 @@ ALTER TABLE `rol`
   MODIFY `idrol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
+-- AUTO_INCREMENT de la tabla `sector`
+--
+ALTER TABLE `sector`
+  MODIFY `id_sector` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+
+--
 -- AUTO_INCREMENT de la tabla `submenu`
 --
 ALTER TABLE `submenu`
@@ -561,7 +656,7 @@ ALTER TABLE `submenu`
 -- AUTO_INCREMENT de la tabla `tecnicos`
 --
 ALTER TABLE `tecnicos`
-  MODIFY `id_tecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_tecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -573,7 +668,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `usuario_menu`
 --
 ALTER TABLE `usuario_menu`
-  MODIFY `id_usuario_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1431;
+  MODIFY `id_usuario_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1433;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_submenu`
