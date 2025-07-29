@@ -49,6 +49,7 @@ $router->get('/error', 'ErrorController@index');
 $router->get('/hola', 'UserController@index');
 $router->get('usuario/{id}/{val}/{val}', 'UserController@show');
 $router->get('/crud_ticket', 'crud_ticketController@index');
+$router->get('/asignacion', 'crud_ticketController@asignacion');
 
 /* Api Controllers */
 $router->post('/Restp/generarToken', 'RestpController@generarToken');

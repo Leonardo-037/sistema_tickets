@@ -47,16 +47,6 @@
         if (json.message) {
             $(".alert-success").hide();
             $(".alert-danger").hide();
-            $.ajax({
-                type: "POST",
-                url: '<?php echo htmlspecialchars($_ENV["BASE_URL"], ENT_QUOTES, 'UTF-8'); ?>cargar_imagenes_configuracion',
-                dataType: "json",
-                success: function(data){
-                    console.log(data);
-                    $(".logo_login").attr("src", '<?php echo htmlspecialchars($_ENV["URL_ArtifyCrud"], ENT_QUOTES, 'UTF-8'); ?>' + 'artify/uploads/' + data[0].logo_login);
-                    $(".logo_panel").attr("src", '<?php echo htmlspecialchars($_ENV["URL_ArtifyCrud"], ENT_QUOTES, 'UTF-8'); ?>' + 'artify/uploads/' + data[0].logo_panel);
-                }
-            });
 
             Swal.fire({
                 icon: "success",
@@ -66,21 +56,4 @@
             });
         }
     });
-
-    function change_state(){
-        $('.input-bulk-crud-update[name="nombreTecnico[]"]').on('change', function () {
-            var $row = $(this).closest('tr'); // buscar la fila actual
-            var selectedValue = $(this).val();
-
-            if (selectedValue !== "") {
-                // buscar el select de estado dentro de la misma fila
-                var $estadoSelect = $row.find('.input-bulk-crud-update[name="estado[]"]');
-
-                // cambiar su valor a "Asignado"
-                $estadoSelect.val('Asignado');
-                $(".guardar_datos").click();
-            }
-        });
-    }
-    change_state();
 </script>

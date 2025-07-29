@@ -58,9 +58,14 @@ class crud_ticketController {
         //para hacer un select dentro del crud llamando a los datos de otra tabla
         $rows = $query->select("tecnicos");  // o con where, orden, etc
 
+    
+        $tecnicoSoporteIds = [1, 2, 4, 5];
+
         $options = [];
         foreach ($rows as $row) {
-            $options[] = [$row['nombre'], $row['nombre']];
+            if (in_array($row['id_tecnicos'], $tecnicoSoporteIds)) {
+                $options[] = [$row['nombre'], $row['nombre']];
+            }
         }
 
         $artify->crudTableCol(array(
@@ -85,6 +90,31 @@ class crud_ticketController {
        
         $stencil = new ArtifyStencil();
         echo $stencil->render('crud_ticket', [
+            'render' => $render
+        ]);
+    }
+
+    public function asignacion(){
+        $artify = DB::ArtifyCrud();
+        $artify->setSettings("function_filter_and_search", true);
+        $artify->setSettings("searchbox", true);
+        $artify->setSettings("editbtn", true);
+        $artify->setSettings("delbtn", true);
+
+        $artify->buttonHide("submitBtnSaveBack");
+
+        $artify->fieldRenameLable("nombre_fa", "Nombre de la Falla");
+        $artify->fieldRenameLable("id_area", "Área");
+
+        $artify->colRename("id_falla", "ID");
+        $artify->colRename("nombre_fa", "Nombre de la Falla");
+        $artify->colRename("id_area", "Área");
+
+        $artify->relatedData('id_area','area','id_area','nombre');
+        $render = $artify->dbTable("fallas")->render();
+
+        $stencil = new ArtifyStencil();
+        echo $stencil->render('asignacion', [
             'render' => $render
         ]);
     }
