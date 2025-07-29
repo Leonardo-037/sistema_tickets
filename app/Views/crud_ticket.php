@@ -2,7 +2,9 @@
 @include('layouts/sidebar')
 <link href='{{ $_ENV["BASE_URL"] }}css/sweetalert2.min.css' rel="stylesheet">
 <style>
-    
+    .artify-button-save {
+        display: none!important;
+    }
 </style>
 <div class="content-wrapper">
     <section class="content">
@@ -80,6 +82,5 @@
             }
         });
     }
-
     change_state();
 </script>
