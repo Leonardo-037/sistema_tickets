@@ -16,6 +16,8 @@ $router->get('/login', 'LoginController@index');
 $router->get('/salir', 'LoginController@salir');
 $router->get('/recuperar', 'LoginController@reset');
 
+$router->get('/registrar_funcionarios', 'formularioFallaController@registrar_funcionarios');
+
 $router->get('/modulos', 'HomeController@modulos');
 $router->get('/usuarios', 'HomeController@usuarios');
 $router->get('/perfil', 'HomeController@perfil');
@@ -39,6 +41,7 @@ $router->post('/obtener_menu_usuario', 'HomeController@obtener_menu_usuario');
 $router->post('/obtener_campos_union_izquierda', 'HomeController@obtener_campos_union_izquierda');
 $router->post('/cargar_imagenes_configuracion', 'HomeController@cargar_imagenes_configuracion');
 $router->post('/cargar_vista_submenu', 'HomeController@cargar_vista_submenu');
+$router->post('/actualizar_tickets_por_fila', 'crud_ticketController@actualizar_tickets_por_fila');
 
 $router->get('/Configuracion', 'ConfiguracionController@index');
 $router->get('/url', 'nombre_tablaController@index');

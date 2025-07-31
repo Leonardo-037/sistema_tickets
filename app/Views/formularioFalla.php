@@ -31,6 +31,8 @@
     $(document).on("artify_after_submission", function(event, obj, data) {
       let json = JSON.parse(data);
 
+      $(".alert-success").hide();
+      $(".alert-danger").hide();
       if (json.message) {
         Swal.fire({
           icon: "success",
@@ -40,6 +42,15 @@
         }).then((result) => {
           if (result.isConfirmed) {
             $(".artify-back").click();
+            $(".nombre").val("");
+            $(".correo").val("");
+            $(".area").val("");
+            $(".fallas").val("");
+            $(".sector_funcionario").chosen("destroy");
+            $(".sector_funcionario").val("");
+            $(".fallas").empty("");
+            $(".fallas").html("<option>Seleccionar</option>");
+            $(".sector_funcionario").chosen();
           }
         });
       }

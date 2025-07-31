@@ -34,64 +34,95 @@ class crud_ticketController {
         //CAMBIAR EL NOMBRE A LA TABLA DE FUNCIONARIO A TICKETS
         $artify->tableHeading('Tickets');
 
-        $artify->colRename("id_funcionarios", "ID");
+        $artify->colRename("id_tickets", "ID");
+        $artify->colRename("n_ticket", "N° de Ticket");
         $artify->colRename("nombreTecnico", "Asignado a");
         //ELIMINA EL BOTON AGREGAR
         $artify->setSettings("addbtn", false);
 
-        //campo estado
-        $artify->bulkCrudUpdate("estado", "select", array("data-cust-attr" =>"some-cust-val"), array(
-            array(
-                "Pendiente",
-                "Pendiente"
-            ),
-            array(
-                "Asignado",
-                "Asignado"
-            ),
-            array(
-                "Completado",
-                "Completado"
-            ))
-        );
-        $query = DB::Queryfy();
-        //para hacer un select dentro del crud llamando a los datos de otra tabla
-        $rows = $query->select("tecnicos");  // o con where, orden, etc
+        /*$artify->fieldTypes("estado", "select");
+        $artify->fieldDataBinding("estado", array(
+            "Pendiente" => "Pendiente", 
+            "Asignado" => "Asignado", 
+            "Completado" => "Completado"
+        ), "", "", "array");*/
 
-    
-        $tecnicoSoporteIds = [1, 2, 4, 5];
+        $artify->buttonHide("submitBtnSaveBack");
 
-        $options = [];
-        foreach ($rows as $row) {
-            if (in_array($row['id_tecnicos'], $tecnicoSoporteIds)) {
-                $options[] = [$row['nombre'], $row['nombre']];
-            }
-        }
+        $horaInicio = date("G:i:s");
+
+        $artify->fieldAttributes("hora_inicio", array("value"=> $horaInicio, "readonly" => "true"));
+        $artify->fieldAttributes("estado", array("value"=> "Asignado", "readonly" => "true"));
 
         $artify->crudTableCol(array(
-            "id_funcionarios",
+            "id_tickets",
+            "n_ticket",
             "nombre",
+            "fecha",
             "nombreTecnico",
             "correo", 
             "area",
             "fallas",
-            "estado"
+            "sector_funcionario",
+            "hora_inicio",
+            "hora_termino",
+            "estado",
+            "observaciones"
         ));
+
+        $artify->fieldTypes("nombreTecnico", "select");
+        $artify->fieldDataBinding("nombreTecnico", "tecnicos", "nombre as tecnicos", "nombre", "db");
+
+        $artify->editFormFields(array("nombreTecnico","hora_inicio", "estado", "fallas"));
 
         $artify->subQueryColumn("area", "SELECT nombre as area FROM area WHERE id_area = {area}");
         $artify->subQueryColumn("fallas", "SELECT nombre_fa as fallas FROM fallas WHERE id_falla = {fallas}");
 
-        $artify->bulkCrudUpdate("nombreTecnico", "select", array("data-cust-attr" => "some-cust-val"), $options);
-        $artify->setSettings("editbtn", false);
-        $artify->setSettings("actionbtn", false);
+        $artify->tableColFormatting("fecha", "date", array("format" =>"d/m/Y"));
+
+        $artify->fieldHideLable("fallas");
+        $artify->fieldDataAttr("fallas", array("style"=>"display:none"));
+
+        $artify->setSettings("refresh", false);
+        $artify->setSettings("editbtn", true);
+        $artify->setSettings("actionbtn", true);
         $artify->setSettings("searchbox", true);
         $artify->setSettings("function_filter_and_search", true);
-        $render= $artify->dbTable("funcionarios")->render();
+
+        $artify->formDisplayInPopup();
+        $artify->addCallback("before_update", [$this, "asignar_tickets"]);
+
+        $render= $artify->dbTable("tickets")->render();
        
         $stencil = new ArtifyStencil();
         echo $stencil->render('crud_ticket', [
             'render' => $render
         ]);
+    }
+
+    public function asignar_tickets($data, $obj){
+        $nombreTecnico = $data["tickets"]["nombreTecnico"];
+        $fallas = $data["tickets"]["fallas"];
+
+        $queryfy = $obj->getQueryfyObj();
+        $queryfy->where("nombre", $nombreTecnico);
+        $result = $queryfy->select("tecnicos");
+
+        $correo = $result[0]["correo"];
+
+        $queryfy->where("id_falla", $fallas);
+        $dbFallas = $queryfy->select("fallas");
+        $nombreFalla = substr($dbFallas[0]["nombre_fa"], 0, 4);
+
+        $emailBody = "Se le ha asignado el Ticket con número $nombreFalla";
+        $subject = "Ticket Generado";
+        $to = $correo;
+
+        DB::PHPMail($to, $correo, $subject, $emailBody);
+
+        $obj->setLangData("success", "Se le ha asignado el Ticket con número $nombreFalla");
+
+        return $data;
     }
 
     public function asignacion(){

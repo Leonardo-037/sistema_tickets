@@ -1077,7 +1077,7 @@ $(document).ready(function(){
             $(obj).ajaxSubmit(options);
 
             function showRequest(formData, jqForm, options) {
-                $(document).trigger("pdcrud_before_form_submit", [obj, formData]);
+                $(document).trigger("artify_before_form_submit", [obj, formData]);
                 $("#artify-ajax-loader").show();
             }
 

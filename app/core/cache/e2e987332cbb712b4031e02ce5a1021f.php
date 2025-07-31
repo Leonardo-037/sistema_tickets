@@ -19,3 +19,21 @@
     <img width="300" src='<?php echo htmlspecialchars($_ENV["BASE_URL"], ENT_QUOTES, 'UTF-8'); ?>app/libs/artify/images/ajax-loader.gif' class="artify-img-ajax-loader"/>
 </div>
 <?php include 'C:\xampp7.4\htdocs\sistema_tickets\app\core/cache/8b931ff7b991445f0fe37e6211d9e549.php'; ?>
+<script>
+    $(document).on("artify_after_submission", function(event, obj, data) {
+        let json = JSON.parse(data);
+
+        if (json.message) {
+            Swal.fire({
+                icon: "success",
+                text: json["message"],
+                confirmButtonText: "Aceptar",
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(".artify-back").click();
+                }
+            });
+        }
+    });
+</script>

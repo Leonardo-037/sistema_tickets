@@ -1,11 +1,6 @@
 @include('layouts/header')
 @include('layouts/sidebar')
 <link href='{{ $_ENV["BASE_URL"] }}css/sweetalert2.min.css' rel="stylesheet">
-<style>
-    .artify-button-save {
-        display: none!important;
-    }
-</style>
 <div class="content-wrapper">
     <section class="content">
         <div class="card mt-4">
@@ -39,7 +34,9 @@
         
         }
 
-        change_state();
+        if(dataAction == "save_crud_table_data"){
+
+        }
     });
     $(document).on("artify_after_submission", function(event, obj, data) {
         let json = JSON.parse(data);
@@ -63,24 +60,11 @@
                 text: json["message"],
                 confirmButtonText: "Aceptar",
                 allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(".artify-back").click();
+                }
             });
         }
     });
-
-    function change_state(){
-        $('.input-bulk-crud-update[name="nombreTecnico[]"]').on('change', function () {
-            var $row = $(this).closest('tr'); // buscar la fila actual
-            var selectedValue = $(this).val();
-
-            if (selectedValue !== "") {
-                // buscar el select de estado dentro de la misma fila
-                var $estadoSelect = $row.find('.input-bulk-crud-update[name="estado[]"]');
-
-                // cambiar su valor a "Asignado"
-                $estadoSelect.val('Asignado');
-                $(".guardar_datos").click();
-            }
-        });
-    }
-    change_state();
 </script>
