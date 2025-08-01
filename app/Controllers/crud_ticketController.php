@@ -28,7 +28,21 @@ class crud_ticketController {
 	}
     
     public function index(){
+        $horaInicio = date("G:i:s");
+
         $artify = DB::ArtifyCrud();
+
+        if($_SESSION["usuario"][0]["idrol"] == 2){ // tecnico
+            //$artify->fieldAttributes("hora_inicio", array("value"=> $horaInicio, "readonly" => "true"));
+            $artify->fieldAttributes("estado", array("value"=> "Iniciado", "readonly" => "true"));
+            $artify->editFormFields(array("hora_inicio", "estado"));
+
+        } else if($_SESSION["usuario"][0]["idrol"] == 3){ // asignador
+            //$artify->fieldAttributes("hora_asignacion", array("value"=> $horaInicio, "readonly" => "true"));
+            $artify->fieldAttributes("estado", array("value"=> "Asignado", "readonly" => "true"));
+            $artify->editFormFields(array("nombreTecnico","hora_asignacion", "estado", "fallas"));
+        }
+
         //esto elimina de la grilla el ticket cuando está finalizado
         $artify->where("estado", "completado", "!=");
         //CAMBIAR EL NOMBRE A LA TABLA DE FUNCIONARIO A TICKETS
@@ -49,11 +63,6 @@ class crud_ticketController {
 
         $artify->buttonHide("submitBtnSaveBack");
 
-        $horaInicio = date("G:i:s");
-
-        $artify->fieldAttributes("hora_inicio", array("value"=> $horaInicio, "readonly" => "true"));
-        $artify->fieldAttributes("estado", array("value"=> "Asignado", "readonly" => "true"));
-
         $artify->crudTableCol(array(
             "id_tickets",
             "n_ticket",
@@ -64,6 +73,7 @@ class crud_ticketController {
             "area",
             "fallas",
             "sector_funcionario",
+            "hora_asignacion",
             "hora_inicio",
             "hora_termino",
             "estado",
@@ -72,8 +82,6 @@ class crud_ticketController {
 
         $artify->fieldTypes("nombreTecnico", "select");
         $artify->fieldDataBinding("nombreTecnico", "tecnicos", "nombre as tecnicos", "nombre", "db");
-
-        $artify->editFormFields(array("nombreTecnico","hora_inicio", "estado", "fallas"));
 
         $artify->subQueryColumn("area", "SELECT nombre as area FROM area WHERE id_area = {area}");
         $artify->subQueryColumn("fallas", "SELECT nombre_fa as fallas FROM fallas WHERE id_falla = {fallas}");

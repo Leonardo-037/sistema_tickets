@@ -355,7 +355,7 @@ class HomeController
 		
 		Redirect::areaProtegida("usuarios", "modulos");
 
-		if($_SESSION["usuario"][0]["idrol"] == 1){
+		if($_SESSION["usuario"][0]["idrol"] == 1 || $_SESSION["usuario"][0]["idrol"] == 2){
             $token = $this->token;
 			$artify = DB::ArtifyCrud();
 			$artify->fieldCssClass("id", array("d-none"));
@@ -387,6 +387,13 @@ class HomeController
 			$artify->recordsPerPage(5);
 			$artify->fieldTypes("avatar", "FILE_NEW");
 			$artify->fieldTypes("password", "password");
+
+			$artify->fieldTypes("nombre", "select");
+			$artify->fieldDataBinding("nombre", "tecnicos", "nombre as tecnicos", "nombre", "db");
+
+			$artify->relatedData('area','area','id_area','nombre');
+			$artify->relatedData('email','tecnicos','id_tecnicos','correo');
+
 			$artify->fieldRenameLable("nombre", "Nombre Completo");
 			$artify->fieldRenameLable("email", "Correo electrónico");
 			$artify->fieldRenameLable("password", "Clave de acceso");
@@ -395,7 +402,7 @@ class HomeController
 			$artify->setSettings("hideAutoIncrement", false);
 			$artify->setSettings("template", "usuarios");
 			$artify->buttonHide("submitBtnSaveBack");
-			$artify->formFields(array("id","nombre","email","password","usuario", "idrol", "avatar"));
+			$artify->formFields(array("id","nombre","email","password","usuario", "idrol", "avatar", "area"));
 			$artify->setRecordsPerPageList(array(5, 10, 15, 'All'=> 'Todo'));
 			$artify->setSettings("printBtn", false);
 			$artify->setSettings("pdfBtn", true);
@@ -427,6 +434,7 @@ class HomeController
 		$clave  = $data["usuario"]["password"];
 		$rol    = $data["usuario"]["idrol"];
 		$avatar = $data["usuario"]["avatar"];
+		$area = $data["usuario"]["area"];
 
 		if(empty($nombre)){
 			$error_msg = array("message" => "", "error" => "El campo Nombre Completo es obligatorio", "redirectionurl" => "");
@@ -467,6 +475,7 @@ class HomeController
 			$newdata["usuario"]["expiration_token"] = 0;
 			$newdata["usuario"]["idrol"] = $rol;
 			$newdata["usuario"]["estatus"] = 1;
+			$newdata["usuario"]["area"] = $area;
 
 			return $newdata;
 		}
@@ -486,6 +495,7 @@ class HomeController
 		$clave  = $data["usuario"]["password"];
 		$user   = $data["usuario"]["usuario"];
 		$rol    = $data["usuario"]["idrol"];
+		$area = $data["usuario"]["area"];
 
 		
 		if(empty($nombre)){
@@ -523,6 +533,7 @@ class HomeController
 			$newdata["usuario"]["expiration_token"] = 0;
 			$newdata["usuario"]["idrol"] = $rol;
 			$newdata["usuario"]["estatus"] = 1;
+			$newdata["usuario"]["area"] = $area;
 
 			return $newdata;
 		}
