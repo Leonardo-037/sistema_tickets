@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-07-2025 a las 20:20:56
+-- Tiempo de generación: 01-08-2025 a las 21:47:47
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -137,23 +137,11 @@ INSERT INTO `fallas` (`id_falla`, `nombre_fa`, `id_area`) VALUES
 
 CREATE TABLE `funcionarios` (
   `id_funcionarios` int(11) NOT NULL,
-  `nombreTecnico` varchar(100) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `correo` varchar(100) NOT NULL,
-  `area` int(11) NOT NULL,
-  `fallas` int(11) NOT NULL,
-  `sector_funcionario` int(11) NOT NULL,
-  `estado` varchar(100) NOT NULL
+  `correo` int(11) NOT NULL,
+  `grado` int(11) NOT NULL,
+  `area` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `funcionarios`
---
-
-INSERT INTO `funcionarios` (`id_funcionarios`, `nombreTecnico`, `nombre`, `correo`, `area`, `fallas`, `sector_funcionario`, `estado`) VALUES
-(1, 'Franco Carrasco', 'caballos', 'daniel.huerta@redsalud.gob.cl', 1, 7, 0, 'Asignado'),
-(2, '', 'ejemplo', 'daniel.huerta@redsalud.gob.cl', 2, 5, 0, 'Pendiente'),
-(3, '', 'elsapallo', 'daniel.telematico@gmail.com', 3, 2, 0, 'Pendiente');
 
 -- --------------------------------------------------------
 
@@ -288,7 +276,8 @@ CREATE TABLE `rol` (
 
 INSERT INTO `rol` (`idrol`, `nombre_rol`) VALUES
 (1, 'Administrador'),
-(2, 'Supervisor');
+(2, 'Tecnico'),
+(3, 'Asignador');
 
 -- --------------------------------------------------------
 
@@ -404,9 +393,41 @@ INSERT INTO `tecnicos` (`id_tecnicos`, `nombre`, `correo`, `area`) VALUES
 (2, 'Jorge Berrios', 'jorge.berrios@redsalud.gob.cl', 1),
 (3, 'Leonardo Martinez', 'leonardo.martinez@redsalud.gob.cl', 2),
 (4, 'Franco Carrasco', 'franco.carrasco@redsalud.gob.cl', 1),
-(5, 'Fabian Pacheco', '', 0),
+(5, 'Fabian Pacheco', 'fabian.pacheco@redsalud.gob.cl', 1),
 (6, 'Daniel Huerta', 'daniel.huerta@redsalud.gob.cl', 2),
-(7, 'Juan Pablo Álvarez Avalos', 'juan.alvarez@redsalud.gob.cl', 1);
+(7, 'Juan Pablo Álvarez Avalos', 'juan.alvarez@redsalud.gob.cl', 1),
+(8, 'Nadia Salas', 'nadia.salas@redsalud.gob.cl', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tickets`
+--
+
+CREATE TABLE `tickets` (
+  `id_tickets` int(11) NOT NULL,
+  `n_ticket` varchar(100) NOT NULL,
+  `nombreTecnico` varchar(100) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `fecha` date NOT NULL,
+  `correo` varchar(100) NOT NULL,
+  `area` int(11) NOT NULL,
+  `fallas` int(11) NOT NULL,
+  `sector_funcionario` int(11) NOT NULL,
+  `hora_asignacion` time NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_termino` time NOT NULL,
+  `estado` varchar(100) NOT NULL,
+  `observaciones` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tickets`
+--
+
+INSERT INTO `tickets` (`id_tickets`, `n_ticket`, `nombreTecnico`, `nombre`, `fecha`, `correo`, `area`, `fallas`, `sector_funcionario`, `hora_asignacion`, `hora_inicio`, `hora_termino`, `estado`, `observaciones`) VALUES
+(24, 'ServCort', 'Daniel Huerta', 'caballos', '2025-07-31', 'demo@demo.cl', 1, 1, 3, '17:14:34', '14:44:47', '00:00:00', 'Iniciado', NULL),
+(25, 'ServCort', 'Juan Pablo Álvarez Avalos', 'elsapallo', '2025-07-31', 'demo@demo.cl', 3, 3, 2, '13:23:31', '14:44:57', '00:00:00', 'Iniciado', NULL);
 
 -- --------------------------------------------------------
 
@@ -425,16 +446,22 @@ CREATE TABLE `usuario` (
   `expiration_token` int(11) DEFAULT NULL,
   `idrol` int(11) NOT NULL,
   `estatus` int(11) NOT NULL,
-  `avatar` varchar(300) NOT NULL
+  `avatar` varchar(300) NOT NULL,
+  `area` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `email`, `usuario`, `password`, `token`, `token_api`, `expiration_token`, `idrol`, `estatus`, `avatar`) VALUES
-(1, 'Daniel', 'daniel.telematico@gmail.com', 'admin', '$2y$10$2BrYaf/9dFNYyZ9ywg4xXeicVrZqrp5HhcpcLykept50WhY242J9m', '$2y$10$sUHfVgHv92C8XLnqJL0HEOwUBD0BGzKJJp2S9hPD6eDYbmpbuqAPm', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJlbWFpbCI6ImRhbmllbC50ZWxlbWF0aWNvQGdtYWlsLmNvbSIsInRpbWVzdGFtcCI6MTcyOTg3ODA3OSwiZXhwIjoxNzI5ODgxNjc5fQ.3ixpmkuvXfjnCkmoaCFtjEh0FyZm3vuYcrqEZYMHVac', 0, 1, 1, '1707312535_1707234514_1668021806_2.png'),
-(20, 'juan', 'juan@demo.cl', 'juan', '$2y$10$d9A4UE4FqYMjAXWJeZS9DuJPWv9Mx3DIiecejdj0yuSO8.yidg9UO', '$2y$10$MTDoBbuAz67mR9ZfxzI4JO4vCDoYh4nAASWnlTR3heLV2Y8I3dLhq', '', 0, 1, 1, '1707246310_1704914375_avatar.jpg');
+INSERT INTO `usuario` (`id`, `nombre`, `email`, `usuario`, `password`, `token`, `token_api`, `expiration_token`, `idrol`, `estatus`, `avatar`, `area`) VALUES
+(1, 'Daniel Huerta', '6', 'dhuerta', '$2y$10$O9cXZmV/cKfhn1kL1miGr.6gPX2hRVjTG83BUNUzhb0tYPJ0Cma.C', '$2y$10$Li.WdUHXU0T8lr5l6vuf7.UN2/eBoLDv90jJaTMHxcWAq1OQJHK6W', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJlbWFpbCI6ImRhbmllbC50ZWxlbWF0aWNvQGdtYWlsLmNvbSIsInRpbWVzdGFtcCI6MTcyOTg3ODA3OSwiZXhwIjoxNzI5ODgxNjc5fQ.3ixpmkuvXfjnCkmoaCFtjEh0FyZm3vuYcrqEZYMHVac', 0, 2, 1, '1707312535_1707234514_1668021806_2.png', 2),
+(24, 'Andres Llanos', '1', 'allanos', '$2y$10$wW.MFBwRbLmRG87MbF1rEuB0cCWZyNz./D6yy8zPXuNFXokvpkqca', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 2, 1, '1710162578_user.png', 1),
+(25, 'Jorge Berrios', '2', 'jberrios', '$2y$10$9h2B1esG9XVLvuGjAmZkZe8gJ6zYD3NgcwT8AD..MBIhapTmAgpEe', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 2, 1, '1710162578_user.png', 1),
+(26, 'Leonardo Martinez', '3', 'lmartinez', '$2y$10$RPdrm54yindnDpR5DaRhq.7lmR4kP1nyYMwNw4AxpgjKNWMjXxkPi', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 2, 1, '1710162578_user.png', 2),
+(27, 'Nadia Salas', '8', 'nsalas', '$2y$10$FeVQ1C/C1IANvKvI4T8Vi.94NNjlA.hdx2ipJnwGvXZ73Yx/NCjyi', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 3, 1, '1710162578_user.png', 1),
+(28, 'Fabian Pacheco', '5', 'fpacheco', '$2y$10$e/xTaHIpW1Rbz1ed/.hybe3l1dbpjavJ4WfpExprKIwyj7YuU57QS', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 2, 1, '1710162578_user.png', 1),
+(29, 'Franco Carrasco', '4', 'fcarrasco', '$2y$10$qVN/OwhjfI5GQgTYmyEzWeFA2OHdXHt7L1iiJIikSQufJ5NVEzoCi', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 2, 1, '1710162578_user.png', 1);
 
 -- --------------------------------------------------------
 
@@ -467,11 +494,52 @@ INSERT INTO `usuario_menu` (`id_usuario_menu`, `id_usuario`, `id_menu`, `visibil
 (1172, 20, 7, 'Mostrar'),
 (1175, 20, 10, 'Mostrar'),
 (1176, 1, 12, 'Mostrar'),
-(1179, 1, 19, 'Mostrar'),
+(1179, 1, 19, 'Ocultar'),
 (1299, 1, 141, 'Mostrar'),
 (1430, 1, 272, 'Mostrar'),
 (1431, 1, 273, 'Mostrar'),
-(1432, 1, 274, 'Mostrar');
+(1432, 1, 274, 'Mostrar'),
+(1433, 24, 4, 'Mostrar'),
+(1434, 24, 5, 'Mostrar'),
+(1435, 24, 6, 'Mostrar'),
+(1436, 24, 7, 'Mostrar'),
+(1437, 24, 10, 'Mostrar'),
+(1438, 24, 12, 'Mostrar'),
+(1439, 24, 141, 'Mostrar'),
+(1440, 24, 272, 'Mostrar'),
+(1441, 24, 273, 'Mostrar'),
+(1442, 24, 274, 'Mostrar'),
+(1443, 25, 4, 'Mostrar'),
+(1444, 25, 5, 'Mostrar'),
+(1445, 25, 6, 'Mostrar'),
+(1446, 25, 7, 'Mostrar'),
+(1447, 25, 10, 'Mostrar'),
+(1448, 25, 12, 'Mostrar'),
+(1449, 25, 141, 'Mostrar'),
+(1450, 25, 272, 'Mostrar'),
+(1451, 25, 273, 'Mostrar'),
+(1452, 25, 274, 'Mostrar'),
+(1453, 26, 4, 'Mostrar'),
+(1454, 26, 5, 'Mostrar'),
+(1455, 26, 6, 'Mostrar'),
+(1456, 26, 7, 'Mostrar'),
+(1457, 26, 10, 'Mostrar'),
+(1458, 26, 12, 'Mostrar'),
+(1459, 26, 19, 'Mostrar'),
+(1460, 26, 141, 'Mostrar'),
+(1461, 26, 272, 'Mostrar'),
+(1462, 26, 273, 'Mostrar'),
+(1463, 26, 274, 'Mostrar'),
+(1464, 27, 4, 'Mostrar'),
+(1465, 27, 5, 'Mostrar'),
+(1466, 27, 6, 'Mostrar'),
+(1467, 27, 7, 'Mostrar'),
+(1468, 27, 10, 'Mostrar'),
+(1469, 27, 12, 'Mostrar'),
+(1470, 27, 141, 'Mostrar'),
+(1471, 27, 272, 'Mostrar'),
+(1472, 27, 273, 'Mostrar'),
+(1473, 27, 274, 'Mostrar');
 
 -- --------------------------------------------------------
 
@@ -565,6 +633,12 @@ ALTER TABLE `tecnicos`
   ADD PRIMARY KEY (`id_tecnicos`);
 
 --
+-- Indices de la tabla `tickets`
+--
+ALTER TABLE `tickets`
+  ADD PRIMARY KEY (`id_tickets`);
+
+--
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
@@ -620,7 +694,7 @@ ALTER TABLE `fallas`
 -- AUTO_INCREMENT de la tabla `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `id_funcionarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_funcionarios` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `menu`
@@ -638,7 +712,7 @@ ALTER TABLE `modulos`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `idrol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `idrol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `sector`
@@ -656,19 +730,25 @@ ALTER TABLE `submenu`
 -- AUTO_INCREMENT de la tabla `tecnicos`
 --
 ALTER TABLE `tecnicos`
-  MODIFY `id_tecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_tecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `tickets`
+--
+ALTER TABLE `tickets`
+  MODIFY `id_tickets` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_menu`
 --
 ALTER TABLE `usuario_menu`
-  MODIFY `id_usuario_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1433;
+  MODIFY `id_usuario_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1474;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_submenu`

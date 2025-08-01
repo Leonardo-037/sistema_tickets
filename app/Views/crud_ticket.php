@@ -75,7 +75,7 @@
         const segundos = String(ahora.getSeconds()).padStart(2, '0');
         const horaActual = `${horas}:${minutos}:${segundos}`;
         
-        document.querySelectorAll('.artify-time').forEach(input => {
+        document.querySelectorAll('.hora_inicio, .hora_asignacion').forEach(input => {
             input.value = horaActual;
         });
     }

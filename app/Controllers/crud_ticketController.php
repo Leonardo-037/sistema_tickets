@@ -33,14 +33,27 @@ class crud_ticketController {
         $artify = DB::ArtifyCrud();
 
         if($_SESSION["usuario"][0]["idrol"] == 2){ // tecnico
-            //$artify->fieldAttributes("hora_inicio", array("value"=> $horaInicio, "readonly" => "true"));
+            $artify->fieldAttributes("hora_inicio", array("readonly" => "true"));
+            $artify->fieldTypes("hora_inicio", "input");
             $artify->fieldAttributes("estado", array("value"=> "Iniciado", "readonly" => "true"));
             $artify->editFormFields(array("hora_inicio", "estado"));
 
+            $action = "javascript:;";
+            $text = '<button class="btn btn-light">Iniciar</button>';
+            $attr = array("title" => "Iniciar", "target"=> "_blank");
+            $artify->enqueueBtnActions("url artify-actions", $action, "edit", $text, "", $attr);
+
         } else if($_SESSION["usuario"][0]["idrol"] == 3){ // asignador
-            //$artify->fieldAttributes("hora_asignacion", array("value"=> $horaInicio, "readonly" => "true"));
+            $artify->fieldAttributes("hora_asignacion", array("readonly" => "true"));
             $artify->fieldAttributes("estado", array("value"=> "Asignado", "readonly" => "true"));
             $artify->editFormFields(array("nombreTecnico","hora_asignacion", "estado", "fallas"));
+
+            //$artify->addWhereConditionActionButtons("edit", "estado", "!=", array("Iniciado"));
+
+            $action = "javascript:;";
+            $text = '<button class="btn btn-light">Asignar</button>';
+            $attr = array("title" => "Asignar", "target"=> "_blank");
+            $artify->enqueueBtnActions("url artify-actions", $action, "edit", $text, "", $attr);
         }
 
         //esto elimina de la grilla el ticket cuando está finalizado
@@ -88,11 +101,14 @@ class crud_ticketController {
 
         $artify->tableColFormatting("fecha", "date", array("format" =>"d/m/Y"));
 
+        $artify->fieldCssClass("hora_inicio", array("hora_inicio"));
+        $artify->fieldCssClass("hora_asignacion", array("hora_asignacion"));
+
         $artify->fieldHideLable("fallas");
         $artify->fieldDataAttr("fallas", array("style"=>"display:none"));
 
         $artify->setSettings("refresh", false);
-        $artify->setSettings("editbtn", true);
+        $artify->setSettings("editbtn", false);
         $artify->setSettings("actionbtn", true);
         $artify->setSettings("searchbox", true);
         $artify->setSettings("function_filter_and_search", true);
@@ -109,26 +125,28 @@ class crud_ticketController {
     }
 
     public function asignar_tickets($data, $obj){
-        $nombreTecnico = $data["tickets"]["nombreTecnico"];
-        $fallas = $data["tickets"]["fallas"];
+        if($_SESSION["usuario"][0]["idrol"] == 3){ 
+            $nombreTecnico = $data["tickets"]["nombreTecnico"];
+            $fallas = $data["tickets"]["fallas"];
 
-        $queryfy = $obj->getQueryfyObj();
-        $queryfy->where("nombre", $nombreTecnico);
-        $result = $queryfy->select("tecnicos");
+            $queryfy = $obj->getQueryfyObj();
+            $queryfy->where("nombre", $nombreTecnico);
+            $result = $queryfy->select("tecnicos");
 
-        $correo = $result[0]["correo"];
+            $correo = $result[0]["correo"];
 
-        $queryfy->where("id_falla", $fallas);
-        $dbFallas = $queryfy->select("fallas");
-        $nombreFalla = substr($dbFallas[0]["nombre_fa"], 0, 4);
+            $queryfy->where("id_falla", $fallas);
+            $dbFallas = $queryfy->select("fallas");
+            $nombreFalla = substr($dbFallas[0]["nombre_fa"], 0, 4);
 
-        $emailBody = "Se le ha asignado el Ticket con número $nombreFalla";
-        $subject = "Ticket Generado";
-        $to = $correo;
+            $emailBody = "Se le ha asignado el Ticket con número $nombreFalla";
+            $subject = "Ticket Generado";
+            $to = $correo;
 
-        DB::PHPMail($to, $correo, $subject, $emailBody);
+            DB::PHPMail($to, $correo, $subject, $emailBody);
 
-        $obj->setLangData("success", "Se le ha asignado el Ticket con número $nombreFalla");
+            $obj->setLangData("success", "Se le ha asignado el Ticket con número $nombreFalla");
+        }
 
         return $data;
     }
