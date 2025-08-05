@@ -26,7 +26,7 @@ class LoginController {
 
 		$Sesusuario = SessionManager::get('usuario');
 		if (isset($Sesusuario)) {
-			Redirect::to("modulos");
+			Redirect::to("crud_ticket");
 		}
 	}
 

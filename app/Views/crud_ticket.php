@@ -12,6 +12,8 @@
                     </div>
                 </div>
 
+                <div class="cargar_modal"></div>
+
             </div>
         </div>
     </section>
@@ -75,7 +77,7 @@
         const segundos = String(ahora.getSeconds()).padStart(2, '0');
         const horaActual = `${horas}:${minutos}:${segundos}`;
         
-        document.querySelectorAll('.hora_inicio, .hora_asignacion').forEach(input => {
+        document.querySelectorAll('.hora_inicio, .hora_asignacion, .hora_termino').forEach(input => {
             input.value = horaActual;
         });
     }
@@ -83,4 +85,28 @@
     actualizarHora();
     setInterval(actualizarHora, 1000);
 
+    $(document).on("click", ".completar", function(){
+        let id = $(this).data("id");
+        
+        $.ajax({
+            type: "POST",
+            url: '{{ $_ENV["BASE_URL"] }}completar_tickets',
+            dataType: "html",
+            data: {
+                id: id
+            },
+            beforeSend: function() {
+                $("#artify-ajax-loader").show();
+            },
+            success: function(data){
+                $("#artify-ajax-loader").hide();
+                $('.cargar_modal').html(data);
+                $("#Completar").modal("show");
+            }
+        });
+    });
+
+    $(document).on('hidden.bs.modal', '#Completar', function () {
+        $('.cargar_modal').empty();
+    });
 </script>

@@ -42,6 +42,7 @@ $router->post('/obtener_campos_union_izquierda', 'HomeController@obtener_campos_
 $router->post('/cargar_imagenes_configuracion', 'HomeController@cargar_imagenes_configuracion');
 $router->post('/cargar_vista_submenu', 'HomeController@cargar_vista_submenu');
 $router->post('/actualizar_tickets_por_fila', 'crud_ticketController@actualizar_tickets_por_fila');
+$router->post('/completar_tickets', 'crud_ticketController@completar_tickets');
 
 $router->get('/Configuracion', 'ConfiguracionController@index');
 $router->get('/url', 'nombre_tablaController@index');

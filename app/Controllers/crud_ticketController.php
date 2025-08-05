@@ -28,38 +28,32 @@ class crud_ticketController {
 	}
     
     public function index(){
-        $horaInicio = date("G:i:s");
-
         $artify = DB::ArtifyCrud();
 
         if($_SESSION["usuario"][0]["idrol"] == 2){ // tecnico
+            $artify->where("nombreTecnico", $_SESSION["usuario"][0]["nombre"], "=");
             $artify->fieldAttributes("hora_inicio", array("readonly" => "true"));
             $artify->fieldTypes("hora_inicio", "input");
             $artify->fieldAttributes("estado", array("value"=> "Iniciado", "readonly" => "true"));
             $artify->editFormFields(array("hora_inicio", "estado"));
-
-            $action = "javascript:;";
-            $text = '<button class="btn btn-light">Iniciar</button>';
-            $attr = array("title" => "Iniciar", "target"=> "_blank");
-            $artify->enqueueBtnActions("url artify-actions", $action, "edit", $text, "", $attr);
 
         } else if($_SESSION["usuario"][0]["idrol"] == 3){ // asignador
             $artify->fieldAttributes("hora_asignacion", array("readonly" => "true"));
             $artify->fieldAttributes("estado", array("value"=> "Asignado", "readonly" => "true"));
             $artify->editFormFields(array("nombreTecnico","hora_asignacion", "estado", "fallas"));
 
-            //$artify->addWhereConditionActionButtons("edit", "estado", "!=", array("Iniciado"));
-
             $action = "javascript:;";
             $text = '<button class="btn btn-light">Asignar</button>';
             $attr = array("title" => "Asignar", "target"=> "_blank");
-            $artify->enqueueBtnActions("url artify-actions", $action, "edit", $text, "", $attr);
+            $artify->enqueueBtnActions("artify-actions", $action, "edit", $text, "", $attr);
         }
 
         //esto elimina de la grilla el ticket cuando está finalizado
         $artify->where("estado", "completado", "!=");
         //CAMBIAR EL NOMBRE A LA TABLA DE FUNCIONARIO A TICKETS
         $artify->tableHeading('Tickets');
+
+        $artify->relatedData('sector_funcionario','sector','id_sector','nombre_sector');
 
         $artify->colRename("id_tickets", "ID");
         $artify->colRename("n_ticket", "N° de Ticket");
@@ -75,6 +69,7 @@ class crud_ticketController {
         ), "", "", "array");*/
 
         $artify->buttonHide("submitBtnSaveBack");
+        $artify->buttonHide("cancel");
 
         $artify->crudTableCol(array(
             "id_tickets",
@@ -108,10 +103,11 @@ class crud_ticketController {
         $artify->fieldDataAttr("fallas", array("style"=>"display:none"));
 
         $artify->setSettings("refresh", false);
-        $artify->setSettings("editbtn", false);
+        $artify->setSettings("editbtn", true);
         $artify->setSettings("actionbtn", true);
         $artify->setSettings("searchbox", true);
         $artify->setSettings("function_filter_and_search", true);
+        $artify->setSettings("template", "template_crud_ticket");
 
         $artify->formDisplayInPopup();
         $artify->addCallback("before_update", [$this, "asignar_tickets"]);
@@ -174,5 +170,23 @@ class crud_ticketController {
         echo $stencil->render('asignacion', [
             'render' => $render
         ]);
+    }
+
+    public function completar_tickets(){
+        $request = new Request();
+
+        if ($request->getMethod() === 'POST') {
+            $param = $request->post('id');
+
+            $artify = DB::ArtifyCrud(true);
+            $artify->setPK("id_tickets");
+            $artify->fieldAttributes("hora_termino", array("readonly" => "true"));
+            $artify->fieldAttributes("estado", array("value"=> "Completado", "readonly" => "true"));
+            $artify->formFields(array("hora_termino", "estado"));
+            $artify->fieldCssClass("hora_termino", array("hora_termino"));
+            $render = $artify->dbTable("tickets")->render("editform", array("id" => $param));
+
+            HomeController::modal("Completar", "", $render);
+        }
     }
 }

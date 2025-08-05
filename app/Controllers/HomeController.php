@@ -30,8 +30,8 @@ class HomeController
 		SessionManager::startSession();
 		$Sesusuario = SessionManager::get('usuario');
 		if (isset($Sesusuario)) {
-			if ($_SERVER['REQUEST_URI'] === "/home/modulos") {
-				Redirect::to("modulos");
+			if ($_SERVER['REQUEST_URI'] === "/home/crud_ticket") {
+				Redirect::to("crud_ticket");
 			}
 		} else {
 			Redirect::to("login");
