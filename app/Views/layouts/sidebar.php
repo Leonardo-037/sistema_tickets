@@ -39,7 +39,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
                     <?php foreach ($menu as $item): ?>
-                        <?php if (($_SESSION["usuario"][0]["idrol"] == 1 || $item["nombre_menu"] != "usuarios") && $item["visibilidad_menu"] != "Ocultar" ): ?>
+                        <?php if (($_SESSION["usuario"][0]["idrol"] == 2 || $item["nombre_menu"] != "usuarios") && $item["visibilidad_menu"] != "Ocultar" ): ?>
                             <?php
                                 // Obtiene submenús
                                 $submenus = App\Controllers\HomeController::Obtener_submenu_por_id_menu($item['id_menu'], $id_sesion_usuario);

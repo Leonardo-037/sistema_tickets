@@ -61,13 +61,6 @@ class crud_ticketController {
         //ELIMINA EL BOTON AGREGAR
         $artify->setSettings("addbtn", false);
 
-        /*$artify->fieldTypes("estado", "select");
-        $artify->fieldDataBinding("estado", array(
-            "Pendiente" => "Pendiente", 
-            "Asignado" => "Asignado", 
-            "Completado" => "Completado"
-        ), "", "", "array");*/
-
         $artify->buttonHide("submitBtnSaveBack");
         $artify->buttonHide("cancel");
 
@@ -184,6 +177,7 @@ class crud_ticketController {
             $artify->fieldAttributes("estado", array("value"=> "Completado", "readonly" => "true"));
             $artify->formFields(array("hora_termino", "estado"));
             $artify->fieldCssClass("hora_termino", array("hora_termino"));
+            $artify->setLangData("success", "Ticket Completado con éxito");
             $render = $artify->dbTable("tickets")->render("editform", array("id" => $param));
 
             HomeController::modal("Completar", "", $render);

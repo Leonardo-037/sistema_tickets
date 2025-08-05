@@ -68,6 +68,20 @@
                 }
             });
         }
+
+        if(json.message == "Ticket Completado con éxito"){
+            Swal.fire({
+                icon: "success",
+                text: json["message"],
+                confirmButtonText: "Aceptar",
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("[data-action='refresh']").click();
+                    $("#Completar").modal("hide");
+                }
+            });
+        }
     });
 
     function actualizarHora() {
