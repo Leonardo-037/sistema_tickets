@@ -34,12 +34,14 @@ class crud_ticketController {
             $artify->where("nombreTecnico", $_SESSION["usuario"][0]["nombre"], "=");
             $artify->fieldAttributes("hora_inicio", array("readonly" => "true"));
             $artify->fieldTypes("hora_inicio", "input");
-            $artify->fieldAttributes("estado", array("value"=> "Iniciado", "readonly" => "true"));
+            $artify->fieldHideLable("estado");
+            $artify->fieldAttributes("estado", array("value"=> "Iniciado", "style" => "display: none"));
             $artify->editFormFields(array("hora_inicio", "estado"));
 
         } else if($_SESSION["usuario"][0]["idrol"] == 3){ // asignador
             $artify->fieldAttributes("hora_asignacion", array("readonly" => "true"));
-            $artify->fieldAttributes("estado", array("value"=> "Asignado", "readonly" => "true"));
+            $artify->fieldHideLable("estado");
+            $artify->fieldAttributes("estado", array("value"=> "Asignado", "style" => "display: none"));
             $artify->editFormFields(array("nombreTecnico","hora_asignacion", "estado", "fallas"));
 
             $action = "javascript:;";
@@ -174,7 +176,8 @@ class crud_ticketController {
             $artify = DB::ArtifyCrud(true);
             $artify->setPK("id_tickets");
             $artify->fieldAttributes("hora_termino", array("readonly" => "true"));
-            $artify->fieldAttributes("estado", array("value"=> "Completado", "readonly" => "true"));
+            $artify->fieldHideLable("estado");
+            $artify->fieldAttributes("estado", array("value"=> "Asignado", "style" => "display: none"));
             $artify->formFields(array("hora_termino", "estado", "observaciones"));
             $artify->fieldCssClass("hora_termino", array("hora_termino"));
             $artify->setLangData("success", "Ticket Completado con éxito");
