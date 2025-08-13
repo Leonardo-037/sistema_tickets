@@ -31,7 +31,8 @@ class crud_ticketController {
         $artify = DB::ArtifyCrud();
 
         if($_SESSION["usuario"][0]["idrol"] == 2){ // tecnico
-            $artify->where("nombreTecnico", $_SESSION["usuario"][0]["nombre"], "=");
+            $artify->where("nombreTecnico", "null", "!=", "AND");
+            $artify->where("nombreTecnico", $_SESSION["usuario"][0]["nombre"]);
             $artify->fieldAttributes("hora_inicio", array("readonly" => "true"));
             $artify->fieldTypes("hora_inicio", "input");
             $artify->fieldHideLable("estado");
