@@ -69,30 +69,60 @@ class formularioFallaController {
     public function insertar_ticket($data, $obj){
         $id = $data;
         $queryfy = $obj->getQueryfyObj();
+
+        // Obtener datos del ticket
         $queryfy->where("id_tickets", $id);
         $result = $queryfy->select("tickets");
         $correo = $result[0]["correo"];
         $area = $result[0]["area"];
         $fallas = $result[0]["fallas"];
 
+        // Obtener nombre de área y falla
         $queryfy->where("id_area", $area);
         $dbAreas = $queryfy->select("area");
         $nombreArea = substr($dbAreas[0]["nombre"], 0, 4);
-        
+
         $queryfy->where("id_falla", $fallas);
         $dbFallas = $queryfy->select("fallas");
         $nombreFalla = substr($dbFallas[0]["nombre_fa"], 0, 4);
 
-        $queryfy->where("correo", $correo);
-        $queryfy->update("tickets", array("n_ticket" => $nombreArea . $nombreFalla));
+        // Construir prefijo del ticket
+        $prefijoTicket = $nombreArea . $nombreFalla;
 
-        $emailBody = "Se ha generado el Ticket con número $nombreFalla satisfactoriamente, a la brevedad un técnico tomará su solicitud";
+        // Buscar tickets existentes que comiencen con este prefijo
+        $queryfy->where("n_ticket", '%'. $prefijoTicket . '%', "LIKE");
+        $ticketsExistentes = $queryfy->select("tickets");
+
+        // Determinar siguiente número
+        $siguienteNumero = 1;
+        if(!empty($ticketsExistentes)){
+            $numeros = [];
+            foreach($ticketsExistentes as $t){
+                $n = str_replace($prefijoTicket, '', $t['n_ticket']);
+                if(is_numeric($n)){
+                    $numeros[] = (int)$n;
+                }
+            }
+            if(!empty($numeros)){
+                $siguienteNumero = max($numeros) + 1;
+            }
+        }
+        $numeroTicketFormateado = str_pad($siguienteNumero, 2, '0', STR_PAD_LEFT);
+
+        $n_ticket_final = $prefijoTicket . $numeroTicketFormateado;
+
+        // Actualizar ticket
+        $queryfy->where("correo", $correo);
+        $queryfy->update("tickets", array("n_ticket" => $n_ticket_final));
+
+        // Enviar correo
+        $emailBody = "Se ha generado el Ticket con número $n_ticket_final satisfactoriamente, a la brevedad un técnico tomará su solicitud";
         $subject = "Ticket Generado";
         $to = $correo;
 
         DB::PHPMail($to, $correo, $subject, $emailBody);
 
-        $obj->setLangData("success", "Se ha generado el Ticket con número $nombreFalla satisfactoriamente, a la brevedad un técnico tomará su solicitud");
+        $obj->setLangData("success", "Se ha generado el Ticket con número $n_ticket_final satisfactoriamente, a la brevedad un técnico tomará su solicitud");
         return $data;
     }
 
