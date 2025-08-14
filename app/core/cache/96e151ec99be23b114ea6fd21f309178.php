@@ -11,6 +11,9 @@
         <div class="card mt-5">
           <div class="card-header bg-info text-white text-center">Genera tu Ticket</div>
           <div class="card-body"><?php echo $render; ?> <?php echo $chosen; ?></div>
+          <div class="card-footer bg-info text-white text-center">
+            <a class="text-white" href='<?=$_ENV["BASE_URL"]?>registrar_funcionarios'>Registrarse</a>
+          </div>
         </div>
 
     </div>
