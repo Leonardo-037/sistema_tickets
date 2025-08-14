@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\core\SessionManager;
 use App\core\Token;
 use App\core\Request;
 use App\core\ArtifyStencil;
