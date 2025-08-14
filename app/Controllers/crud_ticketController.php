@@ -117,7 +117,6 @@ class crud_ticketController {
     public function asignar_tickets($data, $obj){
         if($_SESSION["usuario"][0]["idrol"] == 3){ 
             $nombreTecnico = $data["tickets"]["nombreTecnico"];
-            $fallas = $data["tickets"]["fallas"];
 
             $queryfy = $obj->getQueryfyObj();
             $queryfy->where("nombre", $nombreTecnico);
