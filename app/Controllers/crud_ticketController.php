@@ -51,9 +51,7 @@ class crud_ticketController {
             $artify->enqueueBtnActions("artify-actions", $action, "edit", $text, "", $attr);
         }
 
-        //esto elimina de la grilla el ticket cuando está finalizado
         $artify->where("estado", "completado", "!=");
-        //CAMBIAR EL NOMBRE A LA TABLA DE FUNCIONARIO A TICKETS
         $artify->tableHeading('Tickets');
 
         $artify->relatedData('sector_funcionario','sector','id_sector','nombre_sector');
@@ -61,7 +59,7 @@ class crud_ticketController {
         $artify->colRename("id_tickets", "ID");
         $artify->colRename("n_ticket", "N° de Ticket");
         $artify->colRename("nombreTecnico", "Asignado a");
-        //ELIMINA EL BOTON AGREGAR
+      
         $artify->setSettings("addbtn", false);
 
         $artify->buttonHide("submitBtnSaveBack");
