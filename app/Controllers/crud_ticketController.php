@@ -125,17 +125,13 @@ class crud_ticketController {
 
             $correo = $result[0]["correo"];
 
-            $queryfy->where("id_falla", $fallas);
-            $dbFallas = $queryfy->select("fallas");
-            $nombreFalla = substr($dbFallas[0]["nombre_fa"], 0, 4);
-
-            $emailBody = "Se le ha asignado el Ticket con número $nombreFalla";
+            $emailBody = "Ticket Asignado con éxito";
             $subject = "Ticket Generado";
             $to = $correo;
 
             DB::PHPMail($to, $correo, $subject, $emailBody);
 
-            $obj->setLangData("success", "Se le ha asignado el Ticket con número $nombreFalla");
+            $obj->setLangData("success", "Ticket Asignado con éxito");
         }
 
         return $data;
