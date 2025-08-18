@@ -15,7 +15,7 @@ class formularioFallaController {
         $fecha = date("Y-m-d");
 
         $artify = DB::ArtifyCrud();
-        $artify->addPlugin("chosen");
+        $artify->addPlugin("select2");
         $artify->addCallback("after_insert", [$this, "insertar_ticket"]);
         $artify->fieldNotMandatory("nombreTecnico");
         $artify->fieldHideLable("nombreTecnico");
@@ -56,7 +56,7 @@ class formularioFallaController {
         $artify->formFields(array("nombre","fecha","correo", "area", "fallas", "sector_funcionario", "estado"));
         
         $render = $artify->dbTable("tickets")->render("insertform");
-        $chosen = $artify->loadPluginJsCode("chosen",".sector_funcionario");
+        $chosen = $artify->loadPluginJsCode("select2",".sector_funcionario, .fallas");
 
         $stencil = new ArtifyStencil();
         echo $stencil->render('formularioFalla', [
