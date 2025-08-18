@@ -45,8 +45,7 @@ class ConfiguracionController
         $queryfy->where("id_configuracion", "1");
         $img = $queryfy->select("configuracion");
         
-        $artify->addCallback("before_update", "before_actualizar_configuracion");
-        $artify->addCallback("after_update", "after_actualizar_configuracion");
+        $artify->addCallback("before_update", [$this, "before_actualizar_configuracion"]);
         $artify->tableHeading('Configuración del Sistema');
         $html_template = '<div id="i57h" class="row pt-4">
                                 <div id="iyql" class="col-md"><div class="form-group">
@@ -97,5 +96,11 @@ class ConfiguracionController
             'render' => $render, 
             'color' => $color
         ]);
+    }
+
+    public function before_actualizar_configuracion($data, $obj){
+        $data["configuracion"]["logo_login"] = basename($data["configuracion"]["logo_login"]);
+        $data["configuracion"]["logo_panel"] = basename($data["configuracion"]["logo_panel"]);
+        return $data;
     }
 }
