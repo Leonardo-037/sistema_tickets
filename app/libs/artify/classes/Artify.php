@@ -7101,6 +7101,7 @@ Class Artify {
         $mail->Subject = $subject;
         $mail->msgHTML($message);
         $mail->AltBody = $message;
+        $mail->CharSet = 'UTF-8';
         $mailError = array();
         
         $mail->isSMTP();
