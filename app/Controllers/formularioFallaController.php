@@ -43,7 +43,7 @@ class formularioFallaController {
         $artify->fieldTypes('area','select');
         $artify->fieldDataBinding("area", "area", "id_area", "nombre", "db");
 
-        $artify->fieldDependent("fallas", "area", "id_area"); // campo que depende la carga de los datos
+        $artify->fieldDependent("fallas", "area", "id_area");
 
         $artify->fieldCssClass("fallas", array("fallas"));
 
