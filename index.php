@@ -44,6 +44,8 @@ $router->post('/cargar_vista_submenu', 'HomeController@cargar_vista_submenu');
 $router->post('/actualizar_tickets_por_fila', 'crud_ticketController@actualizar_tickets_por_fila');
 $router->post('/completar_tickets', 'crud_ticketController@completar_tickets');
 
+$router->get('/tickets_completados', 'crud_ticketController@tickets_completados');
+
 $router->get('/Configuracion', 'ConfiguracionController@index');
 $router->get('/url', 'nombre_tablaController@index');
 

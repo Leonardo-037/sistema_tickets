@@ -180,4 +180,45 @@ class crud_ticketController {
             HomeController::modal("Completar", "", $render);
         }
     }
+
+    public function tickets_completados(){
+        $artify = DB::ArtifyCrud();
+        $artify->tableHeading("Mis Tickets Completados");
+        $artify->where("nombreTecnico", $_SESSION["usuario"][0]["nombre"]);
+        $artify->crudTableCol(array(
+            "id_tickets",
+            "n_ticket",
+            "nombre",
+            "fecha",
+            "nombreTecnico",
+            "correo", 
+            "area",
+            "fallas",
+            "sector_funcionario",
+            "hora_asignacion",
+            "hora_inicio",
+            "hora_termino",
+            "estado",
+            "observaciones"
+        ));
+        $artify->setSettings("refresh", false);
+        $artify->setSettings("addbtn", false);
+        $artify->setSettings("editbtn", false);
+        $artify->setSettings("actionbtn", false);
+        $artify->setSettings("searchbox", true);
+        $artify->setSettings("function_filter_and_search", true);
+        $artify->colRename("id_tickets", "ID");
+        $artify->colRename("n_ticket", "N° de Ticket");
+        $artify->colRename("nombreTecnico", "Asignado a");
+        $artify->relatedData('sector_funcionario','sector','id_sector','nombre_sector');
+        $artify->subQueryColumn("area", "SELECT nombre as area FROM area WHERE id_area = {area}");
+        $artify->subQueryColumn("fallas", "SELECT nombre_fa as fallas FROM fallas WHERE id_falla = {fallas}");
+        $artify->where("estado", "completado");
+        $render = $artify->dbTable("tickets")->render();
+
+        $stencil = new ArtifyStencil();
+        echo $stencil->render('tickets_completados', [
+            'render' => $render
+        ]);
+    }
 }
