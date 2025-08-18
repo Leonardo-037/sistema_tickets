@@ -171,7 +171,7 @@ class crud_ticketController {
             $artify->setPK("id_tickets");
             $artify->fieldAttributes("hora_termino", array("readonly" => "true"));
             $artify->fieldHideLable("estado");
-            $artify->fieldAttributes("estado", array("value"=> "Asignado", "style" => "display: none"));
+            $artify->fieldAttributes("estado", array("value"=> "Completado", "style" => "display: none"));
             $artify->formFields(array("hora_termino", "estado", "observaciones"));
             $artify->fieldCssClass("hora_termino", array("hora_termino"));
             $artify->setLangData("success", "Ticket Completado con éxito");
