@@ -43,7 +43,10 @@ class crud_ticketController {
             $artify->fieldAttributes("hora_asignacion", array("readonly" => "true"));
             $artify->fieldHideLable("estado");
             $artify->fieldAttributes("estado", array("value"=> "Asignado", "style" => "display: none"));
-            $artify->editFormFields(array("nombreTecnico","hora_asignacion", "estado", "fallas"));
+            $artify->fieldHideLable("n_ticket");
+            $artify->fieldAttributes("n_ticket", array("style" => "display: none"));
+            $artify->fieldRenameLable("nombreTecnico", "Nombre Técnico");
+            $artify->editFormFields(array("nombreTecnico","hora_asignacion", "estado", "fallas", "n_ticket"));
 
             $action = "javascript:;";
             $text = '<button class="btn btn-light">Asignar</button>';
@@ -117,6 +120,7 @@ class crud_ticketController {
     public function asignar_tickets($data, $obj){
         if($_SESSION["usuario"][0]["idrol"] == 3){ 
             $nombreTecnico = $data["tickets"]["nombreTecnico"];
+            $n_ticket = $data["tickets"]["n_ticket"];
 
             $queryfy = $obj->getQueryfyObj();
             $queryfy->where("nombre", $nombreTecnico);
@@ -124,7 +128,7 @@ class crud_ticketController {
 
             $correo = $result[0]["correo"];
 
-            $emailBody = "Ticket Asignado con éxito";
+            $emailBody = "Se le ha Asignado un Ticket con N° de Ticket". " " . $n_ticket;
             $subject = "Ticket Generado";
             $to = $correo;
 
