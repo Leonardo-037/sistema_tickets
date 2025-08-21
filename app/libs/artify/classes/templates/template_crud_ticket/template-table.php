@@ -93,13 +93,13 @@
                         <td class="artify-row-actions">
                             <?php if($_SESSION["usuario"][0]["idrol"] == 2){ ?>
                                 <?php if($rows["estado"] == "Asignado"){ ?>
-                                    <a href="javascript:;" class="btn btn-light btn-sm artify-actions" data-id="<?=$rows[$pk]?>" data-action="edit">Iniciar</a>
+                                    <a href="javascript:;" class="btn btn-primary btn-sm artify-actions" data-id="<?=$rows[$pk]?>" data-action="edit">Iniciar</a>
                                 <?php } else if($rows["estado"] == "Iniciado"){ ?>
-                                    <a href="javascript:;" class="btn btn-light btn-sm completar" data-id="<?=$rows[$pk]?>">Completar</a>
+                                    <a href="javascript:;" class="btn btn-primary btn-sm completar" data-id="<?=$rows[$pk]?>">Completar</a>
                                 <?php } ?>
                             <?php  } else if($_SESSION["usuario"][0]["idrol"] == 3){ ?>
                                 <?php if($rows["estado"] == "Pendiente"){ ?>
-                                    <a href="javascript:;" class="btn btn-light btn-sm artify-actions" data-id="<?=$rows[$pk]?>" data-action="edit">Asignar</a>
+                                    <a href="javascript:;" class="btn btn-primary btn-sm artify-actions" data-id="<?=$rows[$pk]?>" data-action="edit">Asignar</a>
                                 <?php } ?>
                             <?php } ?>
 
