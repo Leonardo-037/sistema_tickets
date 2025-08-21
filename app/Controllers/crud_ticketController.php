@@ -182,10 +182,21 @@ class crud_ticketController {
             $artify->formFields(array("hora_termino", "estado", "observaciones"));
             $artify->fieldCssClass("hora_termino", array("hora_termino"));
             $artify->setLangData("success", "Ticket Completado con éxito");
+            $artify->fieldNotMandatory("observaciones");
+            $artify->addCallback("before_update", [$this, "edicion_completar_tickets"]);
             $render = $artify->dbTable("tickets")->render("editform", array("id" => $param));
 
             HomeController::modal("Completar", "", $render);
         }
+    }
+
+    public function edicion_completar_tickets($data, $obj){
+        $observaciones = $data["tickets"]["observaciones"];
+
+        if(empty($observaciones)){
+            $data["tickets"]["observaciones"] = "Sin Observaciones";
+        }
+        return $data;
     }
 
     public function tickets_completados(){
