@@ -32,6 +32,7 @@ class crud_ticketController {
 
         if($_SESSION["usuario"][0]["idrol"] == 2){ // tecnico
             $artify->where("nombreTecnico", "null", "!=", "AND");
+            $artify->where("estado", "completado", "!=", "AND");
             $artify->where("nombreTecnico", $_SESSION["usuario"][0]["nombre"]);
             $artify->fieldAttributes("hora_inicio", array("readonly" => "true"));
             $artify->fieldTypes("hora_inicio", "input");
@@ -48,13 +49,15 @@ class crud_ticketController {
             $artify->fieldRenameLable("nombreTecnico", "Nombre Técnico");
             $artify->editFormFields(array("nombreTecnico","hora_asignacion", "estado", "fallas", "n_ticket"));
 
+            $artify->where("nombreTecnico", "", "=", "AND");
+            $artify->where("estado", "Pendiente");
+
             $action = "javascript:;";
             $text = '<button class="btn btn-light">Asignar</button>';
             $attr = array("title" => "Asignar", "target"=> "_blank");
             $artify->enqueueBtnActions("artify-actions", $action, "edit", $text, "", $attr);
         }
 
-        $artify->where("estado", "completado", "!=");
         $artify->tableHeading('Tickets');
 
         $artify->relatedData('sector_funcionario','sector','id_sector','nombre_sector');
