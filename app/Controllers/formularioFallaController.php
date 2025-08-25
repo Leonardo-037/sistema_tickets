@@ -24,6 +24,7 @@ class formularioFallaController {
         $artify->formFieldValue("fecha", $fecha);
         $artify->fieldHideLable("estado");
         $artify->fieldDataAttr("estado", array("style"=>"display:none"));
+        $artify->fieldTypes("correo", "email");
 
         $artify->fieldHideLable("fecha");
         $artify->fieldDataAttr("fecha", array("style"=>"display:none"));
