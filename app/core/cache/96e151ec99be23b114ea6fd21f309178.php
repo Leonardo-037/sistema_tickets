@@ -3,6 +3,14 @@
   body {
     background: #f3f3f3!important;
   }
+
+  .select2-container {
+    width: 100%!important;
+  }
+
+  body { 
+    overflow-x: hidden;
+  }
 </style>
 <div class="container">
   <div class="row justify-content-center">

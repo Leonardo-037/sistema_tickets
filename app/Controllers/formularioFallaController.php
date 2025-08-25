@@ -32,7 +32,7 @@ class formularioFallaController {
         $artify->setLangData("save",'Generar Ticket');
 
         $artify->fieldRenameLable("nombre", "Nombre Completo del Funcionario");
-        $artify->fieldRenameLable("area", "Departamento");
+        $artify->fieldRenameLable("area", "Unidad");
         $artify->fieldRenameLable("correo", "Correo del Funcionario");
         $artify->fieldRenameLable("sector_funcionario", "Sector Funcionario");
 
