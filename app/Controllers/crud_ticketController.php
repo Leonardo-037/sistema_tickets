@@ -81,6 +81,7 @@ class crud_ticketController {
             "area",
             "fallas",
             "sector_funcionario",
+            "foto",
             "hora_asignacion",
             "hora_inicio",
             "hora_termino",
@@ -95,6 +96,8 @@ class crud_ticketController {
         $artify->subQueryColumn("fallas", "SELECT nombre_fa as fallas FROM fallas WHERE id_falla = {fallas}");
 
         $artify->tableColFormatting("fecha", "date", array("format" =>"d/m/Y"));
+
+        $artify->tableColFormatting("foto", "html", array("type" =>"html","str"=>"<img width='100' src=\"".$_ENV["BASE_URL"]."app/libs/artify/uploads/{col-name}\">"));
 
         $artify->fieldCssClass("hora_inicio", array("hora_inicio"));
         $artify->fieldCssClass("hora_asignacion", array("hora_asignacion"));
