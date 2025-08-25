@@ -1,4 +1,13 @@
-<link href='{{ $_ENV["BASE_URL"] }}css/sweetalert2.min.css' rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generar Ticket</title>
+  <link href='{{ $_ENV["BASE_URL"] }}css/sweetalert2.min.css' rel="stylesheet">
+</head>
+<body>
+  
 <style>
   body {
     background: #f3f3f3!important;
@@ -11,6 +20,26 @@
   body { 
     overflow-x: hidden;
   }
+
+  /* Ocultamos el input original */
+  #fileInput {
+    display: none;
+  }
+
+  /* Estilo del botón */
+  .btn-foto {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+  }
+  .btn-foto:hover {
+    background-color: #218838;
+  }
 </style>
 <div class="container">
   <div class="row justify-content-center">
@@ -18,7 +47,7 @@
 
         <div class="card mt-5">
           <div class="card-header bg-info text-white text-center">Genera tu Ticket</div>
-          <div class="card-body">{!!$render!!} {!! $chosen !!}</div>
+          <div class="card-body">{!!$render!!} {!! $select2 !!}</div>
           <div class="card-footer bg-info text-white text-center">
             <a class="text-white" href='<?=$_ENV["BASE_URL"]?>registrar_funcionarios'>Registrarse</a>
           </div>
@@ -67,3 +96,5 @@
       }
     });
 </script>
+</body>
+</html>

@@ -16,6 +16,7 @@ class formularioFallaController {
 
         $artify = DB::ArtifyCrud();
         $artify->addPlugin("select2");
+        $artify->addCallback("before_insert", [$this, "capturar_foto"]);
         $artify->addCallback("after_insert", [$this, "insertar_ticket"]);
         $artify->fieldNotMandatory("nombreTecnico");
         $artify->fieldHideLable("nombreTecnico");
@@ -28,6 +29,13 @@ class formularioFallaController {
 
         $artify->fieldHideLable("fecha");
         $artify->fieldDataAttr("fecha", array("style"=>"display:none"));
+
+        $artify->formStaticFields("camera", "html", "
+            <div style='text-align:center;'>
+                <label for='fileInput' class='btn-foto'>📷 Tomar Foto o seleccionar imagen</label>
+                <input type='file' id='fileInput' name='foto' accept='image/*' capture='camera'>
+            </div>
+        ");
 
         $artify->buttonHide("cancel");
         $artify->setLangData("save",'Generar Ticket');
@@ -58,14 +66,52 @@ class formularioFallaController {
         $artify->formFields(array("nombre","fecha","correo", "area", "fallas", "sector_funcionario", "estado"));
         
         $render = $artify->dbTable("tickets")->render("insertform");
-        $chosen = $artify->loadPluginJsCode("select2",".sector_funcionario, .fallas");
+        $select2 = $artify->loadPluginJsCode("select2",".sector_funcionario, .fallas");
 
         $stencil = new ArtifyStencil();
         echo $stencil->render('formularioFalla', [
             'render' =>$render,
-            'chosen' => $chosen
+            'select2' => $select2
         ]);
     }
+
+    public function capturar_foto($data, $obj){
+        $newData = array();
+        $newData["tickets"]["nombre"] = $data["tickets"]["nombre"];
+        $newData["tickets"]["fecha"] = $data["tickets"]["fecha"];
+        $newData["tickets"]["correo"] = $data["tickets"]["correo"];
+        $newData["tickets"]["area"] = $data["tickets"]["area"];
+        $newData["tickets"]["fallas"] = $data["tickets"]["fallas"];
+        $newData["tickets"]["sector_funcionario"] = $data["tickets"]["sector_funcionario"];
+        $newData["tickets"]["estado"] = $data["tickets"]["estado"];
+
+        // Manejo de archivo
+        if(isset($data["tickets"]["foto"]) && $data["tickets"]["foto"]["error"] === 0){
+            $uploadDir = __DIR__ . "/../libs/artify/uploads/"; // carpeta en tu proyecto
+            if(!file_exists($uploadDir)){
+                mkdir($uploadDir, 0777, true); // crea si no existe
+            }
+
+            $nombreArchivo = time() . "_" . basename($data["tickets"]["foto"]["name"]);
+            $rutaDestino = $uploadDir . $nombreArchivo;
+
+            if(move_uploaded_file($data["tickets"]["foto"]["tmp_name"], $rutaDestino)){
+                // guardamos solo la ruta relativa (ej: para usar en <img>)
+                $newData["tickets"]["foto"] = $nombreArchivo;
+            } else {
+                $newData["tickets"]["foto"] = null;
+            }
+        } else {
+            $newData["tickets"]["foto"] = null;
+        }
+
+        // Ahora $newData está listo para insertarse en la BD
+        //print_r($newData);
+        //die();
+
+        return $newData;
+    }
+
 
     public function insertar_ticket($data, $obj){
         $id = $data;
