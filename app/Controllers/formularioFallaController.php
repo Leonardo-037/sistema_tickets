@@ -105,10 +105,6 @@ class formularioFallaController {
             $newData["tickets"]["foto"] = null;
         }
 
-        // Ahora $newData está listo para insertarse en la BD
-        //print_r($newData);
-        //die();
-
         return $newData;
     }
 

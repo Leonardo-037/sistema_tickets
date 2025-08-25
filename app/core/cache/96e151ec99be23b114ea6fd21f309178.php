@@ -86,11 +86,11 @@
             $(".correo").val("");
             $(".area").val("");
             $(".fallas").val("");
-            $(".sector_funcionario").chosen("destroy");
+            $(".sector_funcionario").select2("destroy");
             $(".sector_funcionario").val("");
             $(".fallas").empty("");
             $(".fallas").html("<option>Seleccionar</option>");
-            $(".sector_funcionario").chosen();
+            $(".sector_funcionario").select2();
           }
         });
       }
