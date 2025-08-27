@@ -134,8 +134,6 @@ class crud_ticketController {
 
         $artify->tableColFormatting("fecha", "date", array("format" =>"d/m/Y"));
 
-        //$artify->tableColFormatting("foto", "html", array("type" =>"html","str"=>"<img width='200' src=\"".$_ENV["BASE_URL"]."app/libs/artify/uploads/{col-name}\">"));
-
         $artify->addCallback("format_table_data", [$this, "formattableTickets"]);
 
         $artify->fieldCssClass("hora_inicio", array("hora_inicio"));
