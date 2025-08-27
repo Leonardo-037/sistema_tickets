@@ -34,6 +34,7 @@ class formularioFallaController {
             <div style='text-align:center;'>
                 <label for='fileInput' id='btnFoto' class='btn-foto'></label>
                 <input type='file' id='fileInput' name='foto' accept='image/*' capture='camera'>
+                <p><strong>Campo Opcional</strong></p>
             </div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
@@ -96,18 +97,28 @@ class formularioFallaController {
         $newData["tickets"]["sector_funcionario"] = $data["tickets"]["sector_funcionario"];
         $newData["tickets"]["estado"] = $data["tickets"]["estado"];
 
+        // Si existe el archivo en $_FILES, lo mapeamos dentro de $data
+        if (isset($_FILES["tickets"]["name"]["foto"])) {
+            $data["tickets"]["foto"] = array(
+                "name"     => $_FILES["tickets"]["name"]["foto"],
+                "type"     => $_FILES["tickets"]["type"]["foto"],
+                "tmp_name" => $_FILES["tickets"]["tmp_name"]["foto"],
+                "error"    => $_FILES["tickets"]["error"]["foto"],
+                "size"     => $_FILES["tickets"]["size"]["foto"],
+            );
+        }
+
         // Manejo de archivo
-        if(isset($data["tickets"]["foto"]) && $data["tickets"]["foto"]["error"] === 0){
-            $uploadDir = __DIR__ . "/../libs/artify/uploads/"; // carpeta en tu proyecto
-            if(!file_exists($uploadDir)){
-                mkdir($uploadDir, 0777, true); // crea si no existe
+        if (isset($data["tickets"]["foto"]) && is_array($data["tickets"]["foto"]) && $data["tickets"]["foto"]["error"] === 0) {
+            $uploadDir = __DIR__ . "/../libs/artify/uploads/";
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
             }
 
             $nombreArchivo = time() . "_" . basename($data["tickets"]["foto"]["name"]);
-            $rutaDestino = $uploadDir . $nombreArchivo;
+            $rutaDestino   = $uploadDir . $nombreArchivo;
 
-            if(move_uploaded_file($data["tickets"]["foto"]["tmp_name"], $rutaDestino)){
-                // guardamos solo la ruta relativa (ej: para usar en <img>)
+            if (move_uploaded_file($data["tickets"]["foto"]["tmp_name"], $rutaDestino)) {
                 $newData["tickets"]["foto"] = $nombreArchivo;
             } else {
                 $newData["tickets"]["foto"] = null;
@@ -118,7 +129,6 @@ class formularioFallaController {
 
         return $newData;
     }
-
 
     public function insertar_ticket($data, $obj){
         $id = $data;
