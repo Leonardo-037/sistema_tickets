@@ -76,8 +76,13 @@ class crud_ticketController {
             $optPrioridad[$item["prioridad"]] = $item["prioridad"];
         }
 
-        $artify->addFilter('filterNombreTecnico', 'Filtrar por Asignado a', 'nombreTecnico', 'dropdown');
-        $artify->setFilterSource('filterNombreTecnico', 'tickets', 'nombreTecnico', 'nombreTecnico as pl', 'db');
+        $optAsignado_a = array();
+        foreach($dbquery as $item){
+            $optAsignado_a[$item["nombreTecnico"]] = $item["nombreTecnico"];
+        }
+
+        $artify->addFilter('filterNombreTecnico', 'Filtrar por Asignado a', '', 'dropdown');
+        $artify->setFilterSource('filterNombreTecnico', $optAsignado_a, '', '', 'array');
 
         $artify->addFilter('filterEstado', 'Filtrar por Estado', '', 'dropdown');
         $artify->setFilterSource('filterEstado', $optEstado, '', '', 'array');
