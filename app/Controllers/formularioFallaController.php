@@ -32,7 +32,7 @@ class formularioFallaController {
 
         $artify->formStaticFields("camera", "html", "
             <div style='text-align:center;'>
-                <label for='fileInput' id='btnFoto' class='btn-foto'>📷</label>
+                <label for='fileInput' id='btnFoto' class='btn-foto'></label>
                 <input type='file' id='fileInput' name='foto' accept='image/*' capture='camera'>
             </div>
             <script>
@@ -42,7 +42,7 @@ class formularioFallaController {
                     if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
                         btnFoto.textContent = '📷 Tomar Foto';
                     } else {
-                        btnFoto.textContent = '📷 Seleccionar Imagen';
+                        btnFoto.textContent = 'Seleccionar Imagen';
                     }
                 });
             </script>
