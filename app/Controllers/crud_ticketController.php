@@ -105,7 +105,7 @@ class crud_ticketController {
 
         $artify->tableColFormatting("fecha", "date", array("format" =>"d/m/Y"));
 
-        $artify->tableColFormatting("foto", "html", array("type" =>"html","str"=>"<img width='200' src=\"".$_ENV["BASE_URL"]."app/libs/artify/uploads/{col-name}\">"));
+        //$artify->tableColFormatting("foto", "html", array("type" =>"html","str"=>"<img width='200' src=\"".$_ENV["BASE_URL"]."app/libs/artify/uploads/{col-name}\">"));
 
         $artify->addCallback("format_table_data", [$this, "formattableTickets"]);
 
@@ -134,6 +134,23 @@ class crud_ticketController {
     }
 
     public function formattableTickets($data, $obj){
+        if($data){
+            foreach($data as &$item){
+                if($item["prioridad"] == "Alta"){
+                    $item["prioridad"] = "<div class='badge badge-danger'>Alta</div>";
+                } else if($item["prioridad"] == "Media"){
+                    $item["prioridad"] = "<div class='badge badge-warning'>Media</div>";
+                } else if($item["prioridad"] == "Baja"){
+                    $item["prioridad"] = "<div class='badge badge-primary'>Baja</div>";
+                }
+
+                if(!empty($item["foto"])){
+                    $item["foto"] = "<img width='200' src=\"".$_ENV["BASE_URL"]."app/libs/artify/uploads/".$item["foto"]."\">";
+                } else {
+                    $item["foto"] = "<div class='bdage badge-danger'>Sin Foto</div>";
+                }
+            }
+        }
         return $data;
     }
 
