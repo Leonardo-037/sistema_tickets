@@ -144,11 +144,17 @@ class crud_ticketController {
                     $item["prioridad"] = "<div class='badge badge-primary'>Baja</div>";
                 }
 
-                if(!empty($item["foto"])){
-                    $item["foto"] = "<img width='200' src=\"".$_ENV["BASE_URL"]."app/libs/artify/uploads/".$item["foto"]."\">";
+                if (!empty($item["foto"])) {
+                    $fotoUrl = $_ENV["BASE_URL"] . "app/libs/artify/uploads/" . $item["foto"];
+                    $item["foto"] = '
+                        <a href="' . $fotoUrl . '" data-fancybox="gallery" data-caption="Foto">
+                            <img src="' . $fotoUrl . '" alt="Foto" width="150" style="border-radius:8px; cursor:pointer;" />
+                        </a>
+                    ';
                 } else {
-                    $item["foto"] = "<div class='bdage badge-danger'>Sin Foto</div>";
+                    $item["foto"] = "<span class='badge badge-danger'>Sin Foto</span>";
                 }
+
             }
         }
         return $data;
