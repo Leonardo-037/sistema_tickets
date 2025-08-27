@@ -107,6 +107,7 @@ class crud_ticketController {
         $artify->colRename("id_tickets", "ID");
         $artify->colRename("n_ticket", "N° de Ticket");
         $artify->colRename("nombreTecnico", "Asignado a");
+        $artify->colRename("area", "Unidad");
       
         $artify->setSettings("addbtn", false);
 
