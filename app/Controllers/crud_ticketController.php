@@ -63,14 +63,27 @@ class crud_ticketController {
             $artify->enqueueBtnActions("artify-actions", $action, "edit", $text, "", $attr);
         }
 
+        $queryfy = DB::Queryfy();
+        $dbquery = $queryfy->DBQuery("SELECT * FROM tickets WHERE estado != 'Completado' ");
+        
+        $optEstado = array();
+        foreach($dbquery as $item){
+            $optEstado[$item["estado"]] = $item["estado"];
+        }
+
+        $optPrioridad = array();
+        foreach($dbquery as $item){
+            $optPrioridad[$item["prioridad"]] = $item["prioridad"];
+        }
+
         $artify->addFilter('filterNombreTecnico', 'Filtrar por Asignado a', 'nombreTecnico', 'dropdown');
         $artify->setFilterSource('filterNombreTecnico', 'tickets', 'nombreTecnico', 'nombreTecnico as pl', 'db');
 
-        $artify->addFilter('filterEstado', 'Filtrar por Estado', 'estado', 'dropdown');
-        $artify->setFilterSource('filterEstado', 'tickets', 'estado', 'estado as pl', 'db');
+        $artify->addFilter('filterEstado', 'Filtrar por Estado', '', 'dropdown');
+        $artify->setFilterSource('filterEstado', $optEstado, '', '', 'array');
 
-        $artify->addFilter('filterPriority', 'Filtrar por Prioridad', 'prioridad', 'dropdown');
-        $artify->setFilterSource('filterPriority', 'tickets', 'prioridad', 'prioridad as pl', 'db');
+        $artify->addFilter('filterPriority', 'Filtrar por Prioridad', '', 'dropdown');
+        $artify->setFilterSource('filterPriority', $optPrioridad, '', '', 'array');
 
         $artify->setSettings("actionFilterPosition", "top");
 
