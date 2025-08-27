@@ -1,7 +1,7 @@
 @include('layouts/header')
 @include('layouts/sidebar')
 <link href='{{ $_ENV["BASE_URL"] }}css/sweetalert2.min.css' rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
+<link rel="stylesheet" href='{{ $_ENV["BASE_URL"] }}css/fancybox.css' />
 <div class="content-wrapper">
     <section class="content">
         <div class="card mt-4">
@@ -24,7 +24,7 @@
 </div>
 @include('layouts/footer')
 <script src='{{ $_ENV["BASE_URL"] }}js/sweetalert2.all.min.js'></script>
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+<script src='{{ $_ENV["BASE_URL"] }}js/fancybox.umd.js'></script>
 <script>
     $(document).on("artify_after_ajax_action", function(event, obj, data){
         var dataAction = obj.getAttribute('data-action');

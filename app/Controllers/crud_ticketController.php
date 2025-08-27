@@ -63,6 +63,14 @@ class crud_ticketController {
             $artify->enqueueBtnActions("artify-actions", $action, "edit", $text, "", $attr);
         }
 
+        $artify->addFilter('filterEstado', 'Filtrar por Estado', 'estado', 'dropdown');
+        $artify->setFilterSource('filterEstado', 'tickets', 'estado', 'estado as pl', 'db');
+
+        $artify->addFilter('filterPriority', 'Filtrar por Prioridad', 'prioridad', 'dropdown');
+        $artify->setFilterSource('filterPriority', 'tickets', 'prioridad', 'prioridad as pl', 'db');
+
+        $artify->setSettings("actionFilterPosition", "top");
+
         $artify->tableHeading('Tickets');
 
         $artify->dbOrderBy("prioridad desc");
