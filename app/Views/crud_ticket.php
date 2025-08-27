@@ -82,6 +82,20 @@
                 }
             });
         }
+
+        if(json.message == "Ticket Asignado con éxito"){
+            Swal.fire({
+                icon: "success",
+                text: json["message"],
+                confirmButtonText: "Aceptar",
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("[data-action='refresh']").click();
+                    $("#Asignar").modal("hide");
+                }
+            });
+        }
     });
 
     function actualizarHora() {
@@ -116,6 +130,27 @@
                 $("#artify-ajax-loader").hide();
                 $('.cargar_modal').html(data);
                 $("#Completar").modal("show");
+            }
+        });
+    });
+
+    $(document).on("click", ".asignar", function(){
+        let id = $(this).data("id");
+        
+        $.ajax({
+            type: "POST",
+            url: '{{ $_ENV["BASE_URL"] }}asignar',
+            dataType: "html",
+            data: {
+                id: id
+            },
+            beforeSend: function() {
+                $("#artify-ajax-loader").show();
+            },
+            success: function(data){
+                $("#artify-ajax-loader").hide();
+                $('.cargar_modal').html(data);
+                $("#Asignar").modal("show");
             }
         });
     });

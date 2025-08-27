@@ -43,6 +43,7 @@ $router->post('/cargar_imagenes_configuracion', 'HomeController@cargar_imagenes_
 $router->post('/cargar_vista_submenu', 'HomeController@cargar_vista_submenu');
 $router->post('/actualizar_tickets_por_fila', 'crud_ticketController@actualizar_tickets_por_fila');
 $router->post('/completar_tickets', 'crud_ticketController@completar_tickets');
+$router->post('/asignar', 'crud_ticketController@asignar');
 
 $router->get('/tickets_completados', 'crud_ticketController@tickets_completados');
 

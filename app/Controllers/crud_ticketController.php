@@ -32,13 +32,18 @@ class crud_ticketController {
 
         if($_SESSION["usuario"][0]["idrol"] == 2){ // tecnico
             $artify->where("nombreTecnico", "null", "!=", "AND");
-            $artify->where("estado", "completado", "!=", "AND");
-            $artify->where("nombreTecnico", $_SESSION["usuario"][0]["nombre"]);
+            $artify->where("estado", "completado", "!=");
+            //$artify->where("nombreTecnico", $_SESSION["usuario"][0]["nombre"]);
             $artify->fieldAttributes("hora_inicio", array("readonly" => "true"));
             $artify->fieldTypes("hora_inicio", "input");
             $artify->fieldHideLable("estado");
             $artify->fieldAttributes("estado", array("value"=> "Iniciado", "style" => "display: none"));
             $artify->editFormFields(array("hora_inicio", "estado"));
+
+            $action = "javascript:;";
+            $text = '<button class="btn btn-light">Asignar</button>';
+            $attr = array("title" => "Asignar", "target"=> "_blank");
+            $artify->enqueueBtnActions("artify-actions", $action, "edit", $text, "", $attr);
 
         } else if($_SESSION["usuario"][0]["idrol"] == 3){ // asignador
             $artify->fieldAttributes("hora_asignacion", array("readonly" => "true"));
@@ -59,6 +64,8 @@ class crud_ticketController {
         }
 
         $artify->tableHeading('Tickets');
+
+        $artify->dbOrderBy("prioridad desc");
 
         $artify->relatedData('sector_funcionario','sector','id_sector','nombre_sector');
 
@@ -86,6 +93,7 @@ class crud_ticketController {
             "hora_inicio",
             "hora_termino",
             "estado",
+            "prioridad",
             "observaciones"
         ));
 
@@ -97,7 +105,9 @@ class crud_ticketController {
 
         $artify->tableColFormatting("fecha", "date", array("format" =>"d/m/Y"));
 
-        $artify->tableColFormatting("foto", "html", array("type" =>"html","str"=>"<img width='100' src=\"".$_ENV["BASE_URL"]."app/libs/artify/uploads/{col-name}\">"));
+        $artify->tableColFormatting("foto", "html", array("type" =>"html","str"=>"<img width='200' src=\"".$_ENV["BASE_URL"]."app/libs/artify/uploads/{col-name}\">"));
+
+        $artify->addCallback("format_table_data", [$this, "formattableTickets"]);
 
         $artify->fieldCssClass("hora_inicio", array("hora_inicio"));
         $artify->fieldCssClass("hora_asignacion", array("hora_asignacion"));
@@ -121,6 +131,10 @@ class crud_ticketController {
         echo $stencil->render('crud_ticket', [
             'render' => $render
         ]);
+    }
+
+    public function formattableTickets($data, $obj){
+        return $data;
     }
 
     public function asignar_tickets($data, $obj){
@@ -190,6 +204,41 @@ class crud_ticketController {
             $render = $artify->dbTable("tickets")->render("editform", array("id" => $param));
 
             HomeController::modal("Completar", "", $render);
+        }
+    }
+
+    public function asignar(){
+        $request = new Request();
+
+        if ($request->getMethod() === 'POST') {
+            $param = $request->post('id');
+
+            $artify = DB::ArtifyCrud(true);
+            $artify->setPK("id_tickets");
+
+            $artify->fieldRenameLable("nombreTecnico", "Nombre Técnico");
+            $artify->fieldAttributes("nombreTecnico", array("value"=> $_SESSION["usuario"][0]["nombre"], "readonly" => "true"));
+            $artify->fieldDataBinding("nombreTecnico", "tecnicos", "nombre as tecnicos", "nombre", "db");
+
+            $artify->fieldHideLable("n_ticket");
+            $artify->fieldAttributes("n_ticket", array("style" => "display: none"));
+
+            $artify->fieldTypes("prioridad", "select");
+            $artify->fieldDataBinding("prioridad", array(
+                "Alta" => "Alta",
+                "Media" => "Media",
+                "Baja" => "Baja"
+            ), "", "", "array");
+
+            $artify->fieldAttributes("hora_asignacion", array("readonly" => "true"));
+            $artify->fieldHideLable("estado");
+            $artify->fieldAttributes("estado", array("value"=> "Asignado", "style" => "display: none"));
+            $artify->formFields(array("hora_asignacion", "estado", "nombreTecnico", "n_ticket", "prioridad"));
+            $artify->fieldCssClass("hora_asignacion", array("hora_asignacion"));
+            $artify->setLangData("success", "Ticket Asignado con éxito");
+            $render = $artify->dbTable("tickets")->render("editform", array("id" => $param));
+
+            HomeController::modal("Asignar", "", $render);
         }
     }
 

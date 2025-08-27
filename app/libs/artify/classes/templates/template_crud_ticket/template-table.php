@@ -94,6 +94,8 @@
                             <?php if($_SESSION["usuario"][0]["idrol"] == 2){ ?>
                                 <?php if($rows["estado"] == "Asignado"){ ?>
                                     <a href="javascript:;" class="btn btn-primary btn-sm artify-actions" data-id="<?=$rows[$pk]?>" data-action="edit">Iniciar</a>
+                                <?php } else if($rows["estado"] == "Pendiente"){ ?>
+                                    <a href="javascript:;" class="btn btn-primary btn-sm asignar" data-id="<?=$rows[$pk]?>">Asignar</a>
                                 <?php } else if($rows["estado"] == "Iniciado"){ ?>
                                     <a href="javascript:;" class="btn btn-primary btn-sm completar" data-id="<?=$rows[$pk]?>">Completar</a>
                                 <?php } ?>
