@@ -32,7 +32,7 @@ class formularioFallaController {
 
         $artify->formStaticFields("camera", "html", "
             <div style='text-align:center;'>
-                <label for='fileInput' id='btnFoto' class='btn-foto'></label>
+                <label for='fileInput' id='btnFoto' class='btn-foto btn-block'></label>
                 <input type='file' id='fileInput' name='foto' accept='image/*' capture='camera'>
                 <p><strong>Campo Opcional</strong></p>
             </div>

@@ -67,18 +67,24 @@ class crud_ticketController {
         $dbquery = $queryfy->DBQuery("SELECT * FROM tickets WHERE estado != 'Completado' ");
         
         $optEstado = array();
-        foreach($dbquery as $item){
-            $optEstado[$item["estado"]] = $item["estado"];
+        foreach ($dbquery as $item) {
+            if (!empty($item["estado"])) {
+                $optEstado[$item["estado"]] = $item["estado"];
+            }
         }
 
         $optPrioridad = array();
-        foreach($dbquery as $item){
-            $optPrioridad[$item["prioridad"]] = $item["prioridad"];
+        foreach ($dbquery as $item) {
+            if (!empty($item["prioridad"])) {
+                $optPrioridad[$item["prioridad"]] = $item["prioridad"];
+            }
         }
 
         $optAsignado_a = array();
-        foreach($dbquery as $item){
-            $optAsignado_a[$item["nombreTecnico"]] = $item["nombreTecnico"];
+        foreach ($dbquery as $item) {
+            if (!empty($item["nombreTecnico"])) {
+                $optAsignado_a[$item["nombreTecnico"]] = $item["nombreTecnico"];
+            }
         }
 
         $artify->addFilter('filterNombreTecnico', 'Filtrar por Asignado a', '', 'dropdown');
