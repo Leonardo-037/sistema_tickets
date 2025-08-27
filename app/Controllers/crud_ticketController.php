@@ -63,6 +63,9 @@ class crud_ticketController {
             $artify->enqueueBtnActions("artify-actions", $action, "edit", $text, "", $attr);
         }
 
+        $artify->addFilter('filterNombreTecnico', 'Filtrar por Asignado a', 'nombreTecnico', 'dropdown');
+        $artify->setFilterSource('filterNombreTecnico', 'tickets', 'nombreTecnico', 'nombreTecnico as pl', 'db');
+
         $artify->addFilter('filterEstado', 'Filtrar por Estado', 'estado', 'dropdown');
         $artify->setFilterSource('filterEstado', 'tickets', 'estado', 'estado as pl', 'db');
 
