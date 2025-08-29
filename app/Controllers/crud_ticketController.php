@@ -124,6 +124,7 @@ class crud_ticketController {
             "area",
             "fallas",
             "sector_funcionario",
+            "ubicacion",
             "foto",
             "hora_asignacion",
             "hora_inicio",

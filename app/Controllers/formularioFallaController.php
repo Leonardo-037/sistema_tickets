@@ -75,7 +75,7 @@ class formularioFallaController {
         $artify->fieldCssClass("fallas", array("fallas"));
         $artify->fieldCssClass("sector_funcionario", array("sector_funcionario"));
 
-        $artify->formFields(array("nombre","fecha","correo", "area", "fallas", "sector_funcionario", "estado"));
+        $artify->formFields(array("nombre","fecha","correo", "area", "fallas", "sector_funcionario", "ubicacion", "estado"));
         
         $render = $artify->dbTable("tickets")->render("insertform");
         $select2 = $artify->loadPluginJsCode("select2",".sector_funcionario, .fallas");
