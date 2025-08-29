@@ -29,6 +29,7 @@ class formularioFallaController {
 
         $artify->fieldHideLable("fecha");
         $artify->fieldDataAttr("fecha", array("style"=>"display:none"));
+        $artify->fieldDataAttr("ubicacion", array("placeholder" => "(Oficina, Piso, etc.)"));
 
         $artify->formStaticFields("camera", "html", "
             <div style='text-align:center;'>
