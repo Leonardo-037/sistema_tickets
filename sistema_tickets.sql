@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-08-2025 a las 13:36:22
+-- Tiempo de generación: 29-08-2025 a las 13:38:58
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -37,8 +37,7 @@ CREATE TABLE `area` (
 --
 
 INSERT INTO `area` (`id_area`, `nombre`) VALUES
-(1, 'Soporte Técnico UTD (Unidad de Transformación Digital)'),
-(2, 'Soporte Desarrollo de Sistemas UTD (Unidad de Transformación Digital)'),
+(1, 'Transformación Digital'),
 (3, 'Servicios Generales'),
 (4, 'Equipos Médicos');
 
@@ -120,12 +119,12 @@ INSERT INTO `fallas` (`id_falla`, `nombre_fa`, `id_area`) VALUES
 (2, 'Goteras', 3),
 (3, 'Corte de Luz', 3),
 (4, 'Enchufes defectuosos', 3),
-(5, 'Error de clave de GIS', 2),
-(6, 'Creación de Sistema Clínico', 2),
+(5, 'Error de clave de GIS', 1),
+(6, 'Creación de Sistema Clínico', 1),
 (7, 'Activación de Office', 1),
 (8, 'Problema de Correo', 1),
-(9, 'Problemas con Archivos', 2),
-(10, 'Enrolamientos de Médicos', 2),
+(9, 'Problemas con Archivos', 1),
+(10, 'Enrolamientos de Médicos', 1),
 (11, 'Fallas de Maquinarias Clínicas', 4),
 (12, 'perros', 4);
 
