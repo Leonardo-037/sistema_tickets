@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-08-2025 a las 21:47:47
+-- Tiempo de generación: 29-08-2025 a las 13:36:22
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -97,7 +97,7 @@ CREATE TABLE `configuracion` (
 --
 
 INSERT INTO `configuracion` (`id_configuracion`, `logo_login`, `logo_panel`, `titulo_sistema`, `color_fondo_menu_panel`) VALUES
-(1, '1753278586_1710180276_hospital.jpg', '1753278586_1710180276_hospital.jpg', 'Web Hospital', '#9e4141');
+(1, '1710180276_hospital.jpg', '1710180276_hospital.jpg', 'Web Hospital', '#9e4141');
 
 -- --------------------------------------------------------
 
@@ -414,20 +414,14 @@ CREATE TABLE `tickets` (
   `area` int(11) NOT NULL,
   `fallas` int(11) NOT NULL,
   `sector_funcionario` int(11) NOT NULL,
+  `foto` varchar(300) DEFAULT NULL,
   `hora_asignacion` time NOT NULL,
   `hora_inicio` time NOT NULL,
   `hora_termino` time NOT NULL,
   `estado` varchar(100) NOT NULL,
+  `prioridad` varchar(100) DEFAULT NULL,
   `observaciones` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `tickets`
---
-
-INSERT INTO `tickets` (`id_tickets`, `n_ticket`, `nombreTecnico`, `nombre`, `fecha`, `correo`, `area`, `fallas`, `sector_funcionario`, `hora_asignacion`, `hora_inicio`, `hora_termino`, `estado`, `observaciones`) VALUES
-(24, 'ServCort', 'Daniel Huerta', 'caballos', '2025-07-31', 'demo@demo.cl', 1, 1, 3, '17:14:34', '14:44:47', '00:00:00', 'Iniciado', NULL),
-(25, 'ServCort', 'Juan Pablo Álvarez Avalos', 'elsapallo', '2025-07-31', 'demo@demo.cl', 3, 3, 2, '13:23:31', '14:44:57', '00:00:00', 'Iniciado', NULL);
 
 -- --------------------------------------------------------
 
