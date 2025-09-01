@@ -159,6 +159,7 @@ class crud_ticketController {
 
         $artify->formDisplayInPopup();
         $artify->addCallback("before_update", [$this, "asignar_tickets"]);
+        $artify->addCallback("before_delete", [$this, "eliminar_tickets"]);
 
         $render= $artify->dbTable("tickets")->render();
        
@@ -166,6 +167,10 @@ class crud_ticketController {
         echo $stencil->render('crud_ticket', [
             'render' => $render
         ]);
+    }
+
+    public function eliminar_tickets($data, $obj){
+        return $data;
     }
 
     public function formattableTickets($data, $obj){
