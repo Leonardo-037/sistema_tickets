@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 29-08-2025 a las 13:38:58
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 7.4.29
+-- Servidor: localhost:3306
+-- Tiempo de generación: 09-09-2025 a las 11:15:06
+-- Versión del servidor: 8.0.32
+-- Versión de PHP: 8.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `sistema_tickets`
+-- Base de datos: `develop1_tickets`
 --
 
 -- --------------------------------------------------------
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `area` (
-  `id_area` int(11) NOT NULL,
+  `id_area` int NOT NULL,
   `nombre` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `area`
@@ -48,7 +48,7 @@ INSERT INTO `area` (`id_area`, `nombre`) VALUES
 --
 
 CREATE TABLE `backup` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `usuario` varchar(100) NOT NULL,
   `archivo` varchar(300) NOT NULL,
   `fecha` date NOT NULL,
@@ -72,10 +72,10 @@ INSERT INTO `backup` (`id`, `usuario`, `archivo`, `fecha`, `hora`) VALUES
 --
 
 CREATE TABLE `carga_masiva` (
-  `id_carga_masiva` int(11) NOT NULL,
+  `id_carga_masiva` int NOT NULL,
   `archivo` varchar(255) NOT NULL,
   `modulo` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -84,12 +84,12 @@ CREATE TABLE `carga_masiva` (
 --
 
 CREATE TABLE `configuracion` (
-  `id_configuracion` int(11) NOT NULL,
+  `id_configuracion` int NOT NULL,
   `logo_login` varchar(300) NOT NULL,
   `logo_panel` varchar(300) NOT NULL,
   `titulo_sistema` varchar(200) NOT NULL,
   `color_fondo_menu_panel` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `configuracion`
@@ -105,10 +105,10 @@ INSERT INTO `configuracion` (`id_configuracion`, `logo_login`, `logo_panel`, `ti
 --
 
 CREATE TABLE `fallas` (
-  `id_falla` int(11) NOT NULL,
+  `id_falla` int NOT NULL,
   `nombre_fa` varchar(100) NOT NULL,
-  `id_area` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_area` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `fallas`
@@ -125,8 +125,7 @@ INSERT INTO `fallas` (`id_falla`, `nombre_fa`, `id_area`) VALUES
 (8, 'Problema de Correo', 1),
 (9, 'Problemas con Archivos', 1),
 (10, 'Enrolamientos de Médicos', 1),
-(11, 'Fallas de Maquinarias Clínicas', 4),
-(12, 'perros', 4);
+(11, 'Fallas de Maquinarias Clínicas', 4);
 
 -- --------------------------------------------------------
 
@@ -135,12 +134,12 @@ INSERT INTO `fallas` (`id_falla`, `nombre_fa`, `id_area`) VALUES
 --
 
 CREATE TABLE `funcionarios` (
-  `id_funcionarios` int(11) NOT NULL,
+  `id_funcionarios` int NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `correo` int(11) NOT NULL,
-  `grado` int(11) NOT NULL,
-  `area` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `correo` int NOT NULL,
+  `grado` int NOT NULL,
+  `area` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -149,14 +148,14 @@ CREATE TABLE `funcionarios` (
 --
 
 CREATE TABLE `menu` (
-  `id_menu` int(11) NOT NULL,
+  `id_menu` int NOT NULL,
   `nombre_menu` varchar(100) NOT NULL,
   `url_menu` varchar(300) NOT NULL,
   `icono_menu` varchar(100) NOT NULL,
   `submenu` varchar(100) NOT NULL,
-  `orden_menu` tinyint(4) NOT NULL,
+  `orden_menu` tinyint NOT NULL,
   `area_protegida_menu` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `menu`
@@ -182,17 +181,17 @@ INSERT INTO `menu` (`id_menu`, `nombre_menu`, `url_menu`, `icono_menu`, `submenu
 --
 
 CREATE TABLE `modulos` (
-  `id_modulos` int(11) NOT NULL,
+  `id_modulos` int NOT NULL,
   `tabla` varchar(100) NOT NULL,
   `id_tabla` varchar(100) DEFAULT NULL,
   `crud_type` varchar(100) NOT NULL,
-  `query` text DEFAULT NULL,
+  `query` text,
   `controller_name` varchar(100) NOT NULL,
-  `columns_table` text DEFAULT NULL,
+  `columns_table` text,
   `name_view` varchar(100) NOT NULL,
   `add_menu` varchar(100) NOT NULL,
   `template_fields` varchar(100) NOT NULL,
-  `id_menu` int(11) DEFAULT NULL,
+  `id_menu` int DEFAULT NULL,
   `active_filter` varchar(100) NOT NULL,
   `clone_row` varchar(100) NOT NULL,
   `active_popup` varchar(100) NOT NULL,
@@ -200,14 +199,14 @@ CREATE TABLE `modulos` (
   `activate_deleteMultipleBtn` varchar(100) NOT NULL,
   `button_add` varchar(100) NOT NULL,
   `actions_buttons_grid` varchar(100) DEFAULT NULL,
-  `modify_query` text DEFAULT NULL,
+  `modify_query` text,
   `activate_nested_table` varchar(100) NOT NULL,
   `buttons_actions` varchar(100) DEFAULT NULL,
   `logo_pdf` varchar(300) DEFAULT NULL,
   `marca_de_agua_pdf` varchar(300) DEFAULT NULL,
   `activate_pdf` varchar(100) NOT NULL,
   `refrescar_grilla` varchar(100) NOT NULL,
-  `consulta_pdf` text DEFAULT NULL,
+  `consulta_pdf` text,
   `id_campos_insertar` varchar(100) DEFAULT NULL,
   `encryption` varchar(100) DEFAULT NULL,
   `mostrar_campos_busqueda` varchar(300) NOT NULL,
@@ -217,7 +216,7 @@ CREATE TABLE `modulos` (
   `sitekey_recaptcha` varchar(500) DEFAULT NULL,
   `sitesecret_repatcha` varchar(500) DEFAULT NULL,
   `mostrar_campos_filtro` varchar(300) DEFAULT NULL,
-  `tipo_de_filtro` text DEFAULT NULL,
+  `tipo_de_filtro` text,
   `function_filter_and_search` varchar(100) DEFAULT NULL,
   `activar_union_interna` varchar(100) NOT NULL,
   `mostrar_campos_formulario_editar` varchar(300) DEFAULT NULL,
@@ -233,20 +232,20 @@ CREATE TABLE `modulos` (
   `ordenar_grilla_por` varchar(500) DEFAULT NULL,
   `tipo_orden` varchar(100) DEFAULT NULL,
   `posicionarse_en_la_pagina` varchar(100) DEFAULT NULL,
-  `nombre_columnas` text DEFAULT NULL,
-  `nuevo_nombre_columnas` text DEFAULT NULL,
+  `nombre_columnas` text,
+  `nuevo_nombre_columnas` text,
   `ocultar_id_tabla` varchar(100) NOT NULL,
-  `nombre_campos` text DEFAULT NULL,
-  `nuevo_nombre_campos` text DEFAULT NULL,
+  `nombre_campos` text,
+  `nuevo_nombre_campos` text,
   `totalRecordsInfo` varchar(100) NOT NULL,
   `area_protegida_por_login` varchar(100) NOT NULL,
   `tabla_principal_union` varchar(500) DEFAULT NULL,
   `tabla_secundaria_union` varchar(500) DEFAULT NULL,
-  `campos_relacion_union_tabla_principal` text DEFAULT NULL,
-  `campos_relacion_union_tabla_secundaria` text DEFAULT NULL,
+  `campos_relacion_union_tabla_principal` text,
+  `campos_relacion_union_tabla_secundaria` text,
   `posicion_filtro` varchar(100) DEFAULT NULL,
   `file_callback` varchar(100) DEFAULT NULL,
-  `type_callback` text DEFAULT NULL,
+  `type_callback` text,
   `type_fields` text NOT NULL,
   `text_no_data` varchar(100) DEFAULT NULL,
   `type_union` varchar(100) DEFAULT NULL,
@@ -256,7 +255,7 @@ CREATE TABLE `modulos` (
   `campos_relacion_union_tabla_principal_izquierda` varchar(500) DEFAULT NULL,
   `tabla_secundaria_union_izquierda` varchar(500) DEFAULT NULL,
   `campos_relacion_union_tabla_secundaria_izquierda` varchar(500) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -265,9 +264,9 @@ CREATE TABLE `modulos` (
 --
 
 CREATE TABLE `rol` (
-  `idrol` int(11) NOT NULL,
+  `idrol` int NOT NULL,
   `nombre_rol` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `rol`
@@ -285,9 +284,9 @@ INSERT INTO `rol` (`idrol`, `nombre_rol`) VALUES
 --
 
 CREATE TABLE `sector` (
-  `id_sector` int(11) NOT NULL,
+  `id_sector` int NOT NULL,
   `nombre_sector` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `sector`
@@ -361,14 +360,14 @@ INSERT INTO `sector` (`id_sector`, `nombre_sector`) VALUES
 --
 
 CREATE TABLE `submenu` (
-  `id_submenu` int(11) NOT NULL,
-  `id_menu` int(11) NOT NULL,
+  `id_submenu` int NOT NULL,
+  `id_menu` int NOT NULL,
   `nombre_submenu` varchar(100) NOT NULL,
   `url_submenu` varchar(300) NOT NULL,
   `icono_submenu` varchar(100) NOT NULL,
-  `orden_submenu` tinyint(4) NOT NULL,
+  `orden_submenu` tinyint NOT NULL,
   `area_protegida_submenu` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -377,11 +376,11 @@ CREATE TABLE `submenu` (
 --
 
 CREATE TABLE `tecnicos` (
-  `id_tecnicos` int(11) NOT NULL,
+  `id_tecnicos` int NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `correo` varchar(100) NOT NULL,
-  `area` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `area` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tecnicos`
@@ -404,23 +403,24 @@ INSERT INTO `tecnicos` (`id_tecnicos`, `nombre`, `correo`, `area`) VALUES
 --
 
 CREATE TABLE `tickets` (
-  `id_tickets` int(11) NOT NULL,
+  `id_tickets` int NOT NULL,
   `n_ticket` varchar(100) NOT NULL,
   `nombreTecnico` varchar(100) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `fecha` date NOT NULL,
   `correo` varchar(100) NOT NULL,
-  `area` int(11) NOT NULL,
-  `fallas` int(11) NOT NULL,
-  `sector_funcionario` int(11) NOT NULL,
+  `area` int NOT NULL,
+  `fallas` int NOT NULL,
+  `sector_funcionario` int NOT NULL,
+  `ubicacion` varchar(100) NOT NULL,
   `foto` varchar(300) DEFAULT NULL,
   `hora_asignacion` time NOT NULL,
   `hora_inicio` time NOT NULL,
   `hora_termino` time NOT NULL,
   `estado` varchar(100) NOT NULL,
   `prioridad` varchar(100) DEFAULT NULL,
-  `observaciones` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `observaciones` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -429,32 +429,32 @@ CREATE TABLE `tickets` (
 --
 
 CREATE TABLE `usuario` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `email` varchar(200) NOT NULL,
   `usuario` varchar(15) NOT NULL,
   `password` varchar(200) NOT NULL,
   `token` longtext NOT NULL,
   `token_api` longtext NOT NULL,
-  `expiration_token` int(11) DEFAULT NULL,
-  `idrol` int(11) NOT NULL,
-  `estatus` int(11) NOT NULL,
+  `expiration_token` int DEFAULT NULL,
+  `idrol` int NOT NULL,
+  `estatus` int NOT NULL,
   `avatar` varchar(300) NOT NULL,
-  `area` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `area` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `email`, `usuario`, `password`, `token`, `token_api`, `expiration_token`, `idrol`, `estatus`, `avatar`, `area`) VALUES
-(1, 'Daniel Huerta', '6', 'dhuerta', '$2y$10$O9cXZmV/cKfhn1kL1miGr.6gPX2hRVjTG83BUNUzhb0tYPJ0Cma.C', '$2y$10$Li.WdUHXU0T8lr5l6vuf7.UN2/eBoLDv90jJaTMHxcWAq1OQJHK6W', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJlbWFpbCI6ImRhbmllbC50ZWxlbWF0aWNvQGdtYWlsLmNvbSIsInRpbWVzdGFtcCI6MTcyOTg3ODA3OSwiZXhwIjoxNzI5ODgxNjc5fQ.3ixpmkuvXfjnCkmoaCFtjEh0FyZm3vuYcrqEZYMHVac', 0, 2, 1, '1707312535_1707234514_1668021806_2.png', 2),
-(24, 'Andres Llanos', '1', 'allanos', '$2y$10$wW.MFBwRbLmRG87MbF1rEuB0cCWZyNz./D6yy8zPXuNFXokvpkqca', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 2, 1, '1710162578_user.png', 1),
-(25, 'Jorge Berrios', '2', 'jberrios', '$2y$10$9h2B1esG9XVLvuGjAmZkZe8gJ6zYD3NgcwT8AD..MBIhapTmAgpEe', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 2, 1, '1710162578_user.png', 1),
-(26, 'Leonardo Martinez', '3', 'lmartinez', '$2y$10$RPdrm54yindnDpR5DaRhq.7lmR4kP1nyYMwNw4AxpgjKNWMjXxkPi', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 2, 1, '1710162578_user.png', 2),
-(27, 'Nadia Salas', '8', 'nsalas', '$2y$10$FeVQ1C/C1IANvKvI4T8Vi.94NNjlA.hdx2ipJnwGvXZ73Yx/NCjyi', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 3, 1, '1710162578_user.png', 1),
-(28, 'Fabian Pacheco', '5', 'fpacheco', '$2y$10$e/xTaHIpW1Rbz1ed/.hybe3l1dbpjavJ4WfpExprKIwyj7YuU57QS', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 2, 1, '1710162578_user.png', 1),
-(29, 'Franco Carrasco', '4', 'fcarrasco', '$2y$10$qVN/OwhjfI5GQgTYmyEzWeFA2OHdXHt7L1iiJIikSQufJ5NVEzoCi', '$2y$10$GiKV6TqNd5r8x8DrldNz8eJIdD/tZ6GvfuVsNfDcdOnvEcxJVvfsS', '', 0, 2, 1, '1710162578_user.png', 1);
+(1, 'Daniel Huerta', '6', 'dhuerta', '$2y$10$qNFVWLsEXLPUjPR.Phz1t.8mOgeQjqJnYu/nCvohAH9eLOgxhcIMO', '$2y$10$and2tLqlKV2Sm5obTe4d7uufn1RqlhGXl7UD8ldfVM5zjfw7HA6Eq', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJlbWFpbCI6ImRhbmllbC50ZWxlbWF0aWNvQGdtYWlsLmNvbSIsInRpbWVzdGFtcCI6MTcyOTg3ODA3OSwiZXhwIjoxNzI5ODgxNjc5fQ.3ixpmkuvXfjnCkmoaCFtjEh0FyZm3vuYcrqEZYMHVac', 0, 2, 1, '1707312535_1707234514_1668021806_2.png', 1),
+(24, 'Andres Llanos', '1', 'allanos', '$2y$10$4wMvUDm9U8kEpn3Y36NUiO4bv0wPpzye5eWP6bN4OXBeIGUAGOBpq', '$2y$10$and2tLqlKV2Sm5obTe4d7uufn1RqlhGXl7UD8ldfVM5zjfw7HA6Eq', '', 0, 2, 1, '1710162578_user.png', 1),
+(25, 'Jorge Berrios', '2', 'jberrios', '$2y$10$2TSq8xPEbUoPDVlPhyejDu0fCMLR1.spwkEmkJdnDPrLRP0ivOWsq', '$2y$10$and2tLqlKV2Sm5obTe4d7uufn1RqlhGXl7UD8ldfVM5zjfw7HA6Eq', '', 0, 2, 1, '1710162578_user.png', 1),
+(26, 'Leonardo Martinez', '3', 'lmartinez', '$2y$10$bFj5iDJqbP7MgN32xQjmEuVRQ/NcRR6mlBZ.WsGM6DvRez6oj/coq', '$2y$10$and2tLqlKV2Sm5obTe4d7uufn1RqlhGXl7UD8ldfVM5zjfw7HA6Eq', '', 0, 2, 1, '1710162578_user.png', 1),
+(27, 'Nadia Salas', '8', 'nsalas', '$2y$10$WjmzvRD3xgeEPRBT/Ukm7eC/IGEzi1R1eAUrT27vUB.SzhGfDKGPm', '$2y$10$and2tLqlKV2Sm5obTe4d7uufn1RqlhGXl7UD8ldfVM5zjfw7HA6Eq', '', 0, 3, 1, '1710162578_user.png', 1),
+(28, 'Fabian Pacheco', '5', 'fpacheco', '$2y$10$L/gZm9nhLHbazTVE7uSdfuvKj9MkJuOt7syrTq9bG0BhqbQ1f8wSq', '$2y$10$and2tLqlKV2Sm5obTe4d7uufn1RqlhGXl7UD8ldfVM5zjfw7HA6Eq', '', 0, 2, 1, '1710162578_user.png', 1),
+(29, 'Franco Carrasco', '4', 'fcarrasco', '$2y$10$iqmUXt2F4p3FU/PylGYZ0.t1ohVgrtNCLu8quCMJ2BSf04ZYdz9ym', '$2y$10$and2tLqlKV2Sm5obTe4d7uufn1RqlhGXl7UD8ldfVM5zjfw7HA6Eq', '', 0, 2, 1, '1710162578_user.png', 1);
 
 -- --------------------------------------------------------
 
@@ -463,11 +463,11 @@ INSERT INTO `usuario` (`id`, `nombre`, `email`, `usuario`, `password`, `token`, 
 --
 
 CREATE TABLE `usuario_menu` (
-  `id_usuario_menu` int(11) NOT NULL,
-  `id_usuario` int(11) DEFAULT NULL,
-  `id_menu` int(11) DEFAULT NULL,
+  `id_usuario_menu` int NOT NULL,
+  `id_usuario` int DEFAULT NULL,
+  `id_menu` int DEFAULT NULL,
   `visibilidad_menu` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `usuario_menu`
@@ -541,12 +541,12 @@ INSERT INTO `usuario_menu` (`id_usuario_menu`, `id_usuario`, `id_menu`, `visibil
 --
 
 CREATE TABLE `usuario_submenu` (
-  `id_usuario_submenu` int(11) NOT NULL,
-  `id_submenu` int(11) NOT NULL,
-  `id_menu` int(11) NOT NULL,
+  `id_usuario_submenu` int NOT NULL,
+  `id_submenu` int NOT NULL,
+  `id_menu` int NOT NULL,
   `visibilidad_submenu` varchar(100) NOT NULL,
-  `id_usuario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_usuario` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Índices para tablas volcadas
@@ -657,97 +657,97 @@ ALTER TABLE `usuario_submenu`
 -- AUTO_INCREMENT de la tabla `area`
 --
 ALTER TABLE `area`
-  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_area` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `backup`
 --
 ALTER TABLE `backup`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `carga_masiva`
 --
 ALTER TABLE `carga_masiva`
-  MODIFY `id_carga_masiva` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_carga_masiva` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `configuracion`
 --
 ALTER TABLE `configuracion`
-  MODIFY `id_configuracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_configuracion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `fallas`
 --
 ALTER TABLE `fallas`
-  MODIFY `id_falla` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_falla` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `id_funcionarios` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_funcionarios` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
+  MODIFY `id_menu` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
 
 --
 -- AUTO_INCREMENT de la tabla `modulos`
 --
 ALTER TABLE `modulos`
-  MODIFY `id_modulos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=302;
+  MODIFY `id_modulos` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=302;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `idrol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `idrol` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `sector`
 --
 ALTER TABLE `sector`
-  MODIFY `id_sector` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id_sector` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `submenu`
 --
 ALTER TABLE `submenu`
-  MODIFY `id_submenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_submenu` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnicos`
 --
 ALTER TABLE `tecnicos`
-  MODIFY `id_tecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_tecnicos` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_tickets` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_tickets` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_menu`
 --
 ALTER TABLE `usuario_menu`
-  MODIFY `id_usuario_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1474;
+  MODIFY `id_usuario_menu` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1474;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_submenu`
 --
 ALTER TABLE `usuario_submenu`
-  MODIFY `id_usuario_submenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_usuario_submenu` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
