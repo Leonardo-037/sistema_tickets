@@ -58,7 +58,7 @@ class formularioFallaController {
         $artify->fieldRenameLable("area", "Unidad");
         $artify->fieldRenameLable("correo", "Correo del Funcionario");
         $artify->fieldRenameLable("sector_funcionario", "Sector Funcionario");
-        $artify->fieldRenameLable("ubicacion", "Ubicación");
+        $artify->fieldRenameLable("ubicacion", "Descripción");
 
         $artify->relatedData('sector_funcionario','sector','id_sector','nombre_sector');
 
